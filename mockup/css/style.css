@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Pacifico&display=swap');
+
+:root {
+    --primary-color1:#E0E7EB;
+    --primary-color2:#6C7896;
+    --primary-color3:#264A96;
+    --secondary-color1:#629CEF;
+    --secondary-color2:#989DA8; 
+    --secondary-color3: #3B70C3;
+    --font1:'Pacifico', cursive;
+    --font2:'Lato', sans-serif;
+  }
+
+body{
+    background-color: var(--primary-color1);
+    font-family: var(--font2);
+}
+
+.navbar-custom{
+    background-color: var(--primary-color3);
+    color: var(--primary-color1);
+}
+.logo{
+    height: 2.5rem;
+}
+.logo-link{
+    font-size: 1.5rem;
+    font-family: var(--font1);
+}
+.search-bar{
+    background-color: var(--secondary-color1);
+}
+.search-button{
+    background-color: var(--primary-color3);
+    color: var(--primary-color1);
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+
+}
+.search-button:hover{
+    background-color: var(--secondary-color3);
+    color: var(--primary-color1);
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+}
+.text-blue{
+    color: var(--primary-color3);
+    font-family: var(--font1);
+}
