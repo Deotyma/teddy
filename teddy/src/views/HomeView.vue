@@ -1,17 +1,20 @@
 <script setup>
+import { RouterLink } from 'vue-router'
+import SearchBar from '../components/SearchBar.vue'
 </script>
 
 <template>
- <div class="row">
-    <div class="row g-0 align-items-center flex-column-reverse flex-md-row d-flex justify-content-center">
+ <div class="container-fluid px-0 mx-0 row">
+    <SearchBar/>
+    <div class="row g-0 align-items-center flex-column-reverse flex-md-row d-flex justify-content-center px-0 mx-0 my-2">
         <div class="col-md-6 mx-2 d-flex justify-content-center row">
             <h1 class="display-5 mb-4">Trouve <span class="pacifico text-primary">un jouet ideal</span> pour ton enfant </h1>
-            <p class="pb-2">Ici chaqun peut trouver et echanger, acheter ou vendre les jouets et materiel éducatif.</p>
-            <a href="" class="btn search-button py-3 px-5 me-3 animated fadeIn bg-primary text-light">Get Started</a>
+            <p class="pb-2">Ici chaqun peut trouver, echanger, acheter, vendre ou donner les jouets, livres et materiel éducatif pour les enfants avec des besoins spécifiques et non seulement.</p>
+            <RouterLink to="sign-up" class="btn search-button py-3 px-5 me-3 animated fadeIn bg-primary text-light fw-bolder fs-6">S'inscrire</RouterLink>
         </div>
         <div class="col-md-5">
-                <img class="img-fluid d-flex justify-content-center" src="../assets/images/bear1.png" alt="two teddy-bears">
-            </div>
+            <img class="img-fluid d-flex justify-content-end px-0 mx-0" src="../assets/images/bear1.png" alt="two teddy-bears">
+        </div>
         </div>
   </div>
 
