@@ -1,8 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Pacifico&display=swap');
 $primary: #2E6782;
 $secondary:#67A1B3 ;
+$info:#b4c6ca;
+$success:#A39E01;
+$warning:#EFD565;
+$danger:#FA7268;
 
-$body-bg: #F7F4ED  ;
+
+$body-bg:#F7F4ED;
 $font-family-base:"Lato";
 
 @import "../node_modules/bootstrap/scss/bootstrap";
