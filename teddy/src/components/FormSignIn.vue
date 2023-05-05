@@ -7,8 +7,7 @@
     }
 
     function logInUser() {
-        console.log(logedUser.email)
-        console.log(logedUser.password)
+        console.log(logedUser)
     }
 
 </script>
@@ -21,7 +20,7 @@
             <p class="pacifico text-primary text-center w-100 fs-1">Teddy Blue</p>
         </div>
         <div class="row d-flex justify-content-around">
-            <div class="col-md-5 d-sm-none d-md-block">
+            <div class="col-md-5 d-none d-md-block">
                 <img class="img-fluid d-flex justify-content-end px-0 mx-0 rounded-3" src="../assets/images/bear2.png" alt="two teddy-bears">
             </div>
             <div class="bg-secondary col-md-5 p-5 rounded-3">
