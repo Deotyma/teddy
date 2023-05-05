@@ -1,14 +1,28 @@
 <script setup>
     import { RouterLink } from 'vue-router';
+    import { ref } from 'vue';
+    import { useVuelidate } from '@vuelidate/core';
+    import { required, minLength, email} from '@vuelidate/validators'
 
-    const logedUser= {
-        email:"",
-        password:""
-    }
 
-    function logInUser() {
-        console.log(logedUser)
+const logedUser = ref({
+  email: "",
+  password: ""
+});
+
+const rules = {
+  email: { required, email },
+  password: { required, minLength: minLength(6) }
+};
+
+const v$ = useVuelidate(rules, logedUser);
+
+function logInUser() {
+    v$.value.$touch();
+    if (!v$.value.$error) {
+        console.log(logedUser.value);
     }
+}
 
 </script>
 
@@ -25,15 +39,16 @@
             </div>
             <div class="bg-secondary col-md-5 p-5 rounded-3">
                 <form @submit.prevent="logInUser">
-
                     <div class="mb-3">
                         <label for="email" class="form-label text-light fw-bolder fs-5">Email</label>
-                        <input v-model="logedUser.email" type="email" class="form-control py-3" id="email" placeholder="name@example.com">
+                        <input v-model="logedUser.email" type="email" class="form-control py-3" id="email" placeholder="name@example.com" :class="{'is-invalid' : v$.email.$error}">
+                        <div v-show="v$.email.$error" class="text-danger">{{ v$.email.$errors[0] }}</div>
                     </div>
 
                     <div class="mb-3">
                         <label for="password" class="form-label text-light fw-bolder fs-5">Mot de passe</label>
-                        <input v-model="logedUser.password" type="password" class="form-control py-3" id="password">
+                        <input v-model="logedUser.password" type="password" class="form-control py-3" id="password" :class="{'is-invalid' : v$.password.$error}">
+                        <div v-show="v$.password.$error" class="text-danger">{{ v$.password.$errors[0] }}</div>
                     </div>
 
                     <div class="my-3 d-flex justify-content-end">
@@ -43,16 +58,15 @@
                     <div>
                         <button type="submit" class="btn search-button border-0 w-100 py-3 bg-primary text-light fw-bolder">Se connecter</button>
                     </div>
-
                 </form>
                 <div class="row py-3 d-flex justify-content-center">
-                        <div>
-                            <p class="text-center text-light fw-bolder fs-6">Vous découvrez <span class="pacifico">Teddy Blue</span></p>
+                    <div>
+                        <p class="text-center text-light fw-bolder fs-6">Vous découvrez <span class="pacifico">Teddy Blue</span></p>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <RouterLink to="sign-up" class="text-center text-primary fw-bolder fs-6 text-decoration-none">Inscrivez Vous</RouterLink>
-                        </div>
+                    <div class="d-flex justify-content-center">
+                        <RouterLink to="sign-up" class="text-center text-primary fw-bolder fs-6 text-decoration-none">Inscrivez Vous</RouterLink>
                     </div>
+                </div>
             </div>
         </div> 
     </div>
