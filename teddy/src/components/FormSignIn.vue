@@ -2,7 +2,7 @@
     import { RouterLink } from 'vue-router';
     import { ref } from 'vue';
     import { useVuelidate } from '@vuelidate/core';
-    import { required, minLength, email} from '@vuelidate/validators'
+    import { required, minLength, maxLength, email} from '@vuelidate/validators'
 
 
 const logedUser = ref({
@@ -11,8 +11,13 @@ const logedUser = ref({
 });
 
 const rules = {
-  email: { required, email },
-  password: { required, minLength: minLength(6) }
+  email: { 
+    required, 
+    email },
+  password: { 
+    required, 
+    minLength: minLength(8), 
+    maxLength: maxLength(20) }
 };
 
 const v$ = useVuelidate(rules, logedUser);
@@ -42,13 +47,21 @@ function logInUser() {
                     <div class="mb-3">
                         <label for="email" class="form-label text-light fw-bolder fs-5">Email</label>
                         <input v-model="logedUser.email" type="email" class="form-control py-3" id="email" placeholder="name@example.com" :class="{'is-invalid' : v$.email.$error}">
-                        <div v-show="v$.email.$error" class="text-danger">{{ v$.email.$errors[0] }}</div>
+                        <div v-if="v$.email.$errors">
+                            <p v-for="error of v$.email.$errors" :key="error.$uid" class="text-danger">
+                                {{ error.$message }}
+                            </p>
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="password" class="form-label text-light fw-bolder fs-5">Mot de passe</label>
                         <input v-model="logedUser.password" type="password" class="form-control py-3" id="password" :class="{'is-invalid' : v$.password.$error}">
-                        <div v-show="v$.password.$error" class="text-danger">{{ v$.password.$errors[0] }}</div>
+                        <div v-if="v$.password.$errors">
+                            <p v-for="error of v$.password.$errors" :key="error.$uid" class="text-danger">
+                                {{ error.$message }}
+                            </p>
+                        </div>
                     </div>
 
                     <div class="my-3 d-flex justify-content-end">
