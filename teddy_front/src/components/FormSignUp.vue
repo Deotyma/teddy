@@ -55,12 +55,11 @@ const v$ = useVuelidate(rules, createdUser);
 function SignUpUser() {
     console.log("password - ", createdUser.password)
     console.log("données: ",createdUser.value);
-    //console.log(createdUser.repeatPassword)
         v$.value.$touch();
     if (!v$.value.$error) {
         console.log(createdUser.value);
     }
-    }
+}
 
 </script>
 
@@ -74,26 +73,26 @@ function SignUpUser() {
                 <form @submit.prevent="SignUpUser">
                     <div class="row">
                         <div class="col-12 col-md-6 mb-3">
-                            <label for="firstName" class="form-label text-light fw-bolder fs-5">Prènom</label>
+                            <label for="firstName" class="form-label text-light fw-bolder fs-5">{{ $t('userForm.firstName') }}</label>
                             <input v-model="createdUser.firstName" type="text" class="form-control py-3" id="firstName" :class="{'is-invalid' : v$.firstName.$error}"/>
                             <div v-if="v$.firstName.$error">
                                 <p v-for="error of v$.firstName.$errors" :key="error.$uid" class="text-danger">
-                                    {{ error.$message }}
+                                    {{ $t(`errorMessages.${error.$message}`) }}
                                 </p>
                             </div>
                         </div>
                         <div class="col-12 col-md-6 mb-3">
-                            <label for="lastName" class="form-label text-light fw-bolder fs-5">Nom</label>
+                            <label for="lastName" class="form-label text-light fw-bolder fs-5">{{ $t('userForm.lastName') }}</label>
                             <input  v-model="createdUser.lastName" type="text" class="form-control py-3" id="lastName" :class="{'is-invalid' : v$.lastName.$error}"/>
                             <div v-if="v$.lastName.$error">
                                 <p v-for="error of v$.lastName.$errors" :key="error.$uid" class="text-danger">
-                                    {{ error.$message }}
+                                    {{ $t(`errorMessages.${error.$message}`) }}
                                 </p>
                             </div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="email" class="form-label text-light fw-bolder fs-5">Email</label>
+                        <label for="email" class="form-label text-light fw-bolder fs-5">{{ $t('userForm.email') }}</label>
                         <input v-model="createdUser.email" type="email" class="form-control py-3" id="email" placeholder="name@example.com" :class="{'is-invalid' : v$.email.$error}">
                         <div v-if="v$.email.$error">
                             <p v-for="error of v$.email.$errors" :key="error.$uid" class="text-danger">
@@ -102,7 +101,7 @@ function SignUpUser() {
                         </div>
                     </div>
                     <div class="col-12 mb-3">
-                        <label for="address" class="form-label text-light fw-bolder fs-5">Adresse</label>
+                        <label for="address" class="form-label text-light fw-bolder fs-5">{{ $t('userForm.address') }}</label>
                         <input v-model="createdUser.address" type="text" class="form-control py-3" id="address" placeholder="1, rue Saint Sevrin" :class="{'is-invalid' : v$.address.$error}"/>
                         <div v-if="v$.address.$error">
                             <p v-for="error of v$.address.$errors" :key="error.$uid" class="text-danger">
@@ -112,7 +111,7 @@ function SignUpUser() {
                     </div>
                     <div class="row">
                         <div class="col-12 col-md-6 mb-3">
-                            <label for="zipCode" class="form-label text-light fw-bolder fs-5">Code postal</label>
+                            <label for="zipCode" class="form-label text-light fw-bolder fs-5">{{ $t('userForm.zipCode') }}</label>
                             <input v-model="createdUser.zipCode" type="text" class="form-control py-3" id="zipCode" placeholder="75009" :class="{'is-invalid' : v$.zipCode.$error}"/>
                             <div v-if="v$.zipCode.$error">
                                 <p v-for="error of v$.zipCode.$errors" :key="error.$uid" class="text-danger">
@@ -121,7 +120,7 @@ function SignUpUser() {
                             </div>
                         </div>
                         <div class="col-12 col-md-6 mb-3">
-                            <label for="town" class="form-label text-light fw-bolder fs-5">Ville</label>
+                            <label for="town" class="form-label text-light fw-bolder fs-5">{{ $t('userForm.town') }}</label>
                             <input v-model="createdUser.town" type="text" class="form-control py-3" id="town" placeholder="Paris" :class="{'is-invalid' : v$.town.$error}"/>
                             <div v-if="v$.town.$error">
                                 <p v-for="error of v$.town.$errors" :key="error.$uid" class="text-danger">
@@ -132,7 +131,7 @@ function SignUpUser() {
                     </div>
                     <div class="row">
                         <div class="col-12 col-md-6 mb-3">
-                            <label for="password" class="form-label text-light fw-bolder fs-5">Mot de passe</label>
+                            <label for="password" class="form-label text-light fw-bolder fs-5">{{ $t('userForm.password') }}</label>
                             <input v-model="createdUser.password" type="password" class="form-control py-3" id="password" :class="{'is-invalid' : v$.password.$error}"/>
                             <div v-if="v$.password.$errors">
                                 <p v-for="error of v$.password.$errors" :key="error.$uid" class="text-danger">
@@ -151,7 +150,7 @@ function SignUpUser() {
                         </div>-->
                     </div>
                     <div>
-                        <button type="submit" class="btn search-button border-0 w-100 py-3 bg-primary text-light fw-bolder">S'inscrire</button>
+                        <button type="submit" class="btn search-button border-0 w-100 py-3 bg-primary text-light fw-bolder">{{ $t('home.register') }}</button>
                     </div>
                 </form>
             </div>
