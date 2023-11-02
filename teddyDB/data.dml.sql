@@ -1,15 +1,13 @@
 -- Clean up existing data
-DELETE FROM annonce_category;
-DELETE FROM annonce_purchase_methods;
 DELETE FROM favorites;
 DELETE FROM annonces;
 DELETE FROM users;
-DELETE FROM purchase_methods;
+DELETE FROM shering_methods;
 DELETE FROM categories;
-DELETE FROM cities;
+DELETE FROM localities;
 
--- Insert data into `cities`
-INSERT INTO cities(zip_code, city) 
+-- Insert data into `localities`
+INSERT INTO localities(zip_code, locality_name) 
 	VALUES 
 	('75000', 'Paris'), 
 	('94400','Créteil'),
@@ -17,43 +15,37 @@ INSERT INTO cities(zip_code, city)
 	('67890', 'Lyon');
 
 -- Insert data into `categories`
-INSERT INTO categories(category) 
+INSERT INTO categories(category_name) 
 	VALUES 
 	('book'),
 	('toy'),
 	('educational material'),
 	('sport material');
 
--- Insert data into `purchase_methods`
-INSERT INTO purchase_methods(purchase_method) 
+-- Insert data into `shering_methods`
+INSERT INTO shering_methods(shering_method_name) 
 	VALUES 
-	('buy'),
+	('looking for'),
 	('exchange'),
 	('give'),
 	('sell');
 
 -- Insert data into `users`
-INSERT INTO users(first_name, last_name, pseudo_user, email, zip_code, city, password) 
+INSERT INTO users(first_name, last_name, nick_name, email, zip_code, locality_name, password) 
 VALUES ('John', 'Doe', 'john_doe', 'john.doe@example.com', '75000', 'Paris', 'password123'),
 	   ('Marie', 'Dupont', 'mdupont', 'mdupont@example.com', '94400', 'Créteil', 'password456'),
        ('Jane', 'Smith', 'jane_smith', 'jane.smith@example.com', '67890', 'Lyon', 'password123');
 
--- Insert data into `annonces` using JOINs for `users`, `categories`, and `purchase_methods`
-INSERT INTO annonces(title, product_name, annonce_text, photo, date, id_user) 
-VALUES ('Old book for sale', 'Classic Novel', 'An old classic novel in good condition.', 'link_to_photo1', '2023-08-20',
-        (SELECT u.id_user FROM users u WHERE u.pseudo_user = 'john_doe')),
-       ('Kids toy', 'Rubber Duck', 'Yellow rubber duck for kids.', 'link_to_photo2', '2023-08-21', 
-        (SELECT u.id_user FROM users u WHERE u.pseudo_user = 'jane_smith'));
+-- Insert data into `annonces` for `users`, `categories`, and `shering_methods`
+INSERT INTO annonces (title, text_annonce, email, shering_method_name, category_name, date) VALUES
+    ('Old book for sale', 'Montessori book foe sale.', 'john.doe@example.com', 'sell', 'book', '2023-11-02'),
+    ('Kids toy', 'Puzzle of 3 elements to give.', 'mdupont@example.com', 'give', 'toy', '2023-11-03');
 
--- Insert data into `annonce_category` and `annonce_purchase_methods` using JOINs
-INSERT INTO annonce_category(id_annonce, id_category) 
-VALUES ((SELECT a.id_annonce FROM annonces a WHERE a.title = 'Old book for sale'),
-        (SELECT c.id_category FROM categories c WHERE c.category = 'book')),
-       ((SELECT a.id_annonce FROM annonces a WHERE a.title = 'Kids toy'),
-        (SELECT c.id_category FROM categories c WHERE c.category = 'toy'));
 
-INSERT INTO annonce_purchase_methods(id_annonce, id_purchase_method) 
+
+
+INSERT INTO favorites(id_annonce, email) 
 VALUES ((SELECT a.id_annonce FROM annonces a WHERE a.title = 'Old book for sale'),
-        (SELECT pm.id_purchase_method FROM purchase_methods pm WHERE pm.purchase_method = 'buy')),
+        (SELECT u.email FROM users u WHERE u.nick_name = 'mdupont')),
        ((SELECT a.id_annonce FROM annonces a WHERE a.title = 'Kids toy'),
-        (SELECT pm.id_purchase_method FROM purchase_methods pm WHERE pm.purchase_method = 'give'));
+        (SELECT u.email FROM users u WHERE u.nick_name = 'jane_smith'));
