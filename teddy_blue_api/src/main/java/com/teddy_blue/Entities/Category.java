@@ -10,36 +10,29 @@ import javax.persistence.Table;
 public class Category {
 
     @Id
-    @Column(name = "id_category")
-    private String idCategory;
-
-    @Column(name = "category", updatable = false)
-    private String category;
-
+    private Long id;
+    
+    @Column(name = "category_name", updatable = false)
+    private String category_name;
+    
     public Category() {
 
     }
 
-    public String getCategory() {
-	return category;
+    public Long getId() {
+        return id;
     }
 
-    public void setCategory(String category) {
-	this.category = category;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getIdCategory() {
-	return idCategory;
+    public String getCategory_name() {
+        return category_name;
     }
 
-    public void setIdCategory(String idCategory) {
-	this.idCategory = idCategory;
-    }
-
-    @Override
-    public String toString() {
-	return "Category [idCategory=" + idCategory
-		+ ", category=" + category + "]";
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
     }
 
 }
