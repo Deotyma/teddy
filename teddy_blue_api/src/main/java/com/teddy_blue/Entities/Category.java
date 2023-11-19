@@ -2,29 +2,17 @@ package com.teddy_blue.Entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "categories")
-public class Category {
-
-    @Id
-    private Long id;
+public class Category extends AbstractEntity {
     
     @Column(name = "category_name", updatable = false)
     private String category_name;
     
     public Category() {
 
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getCategory_name() {

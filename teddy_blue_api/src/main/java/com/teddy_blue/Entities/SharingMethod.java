@@ -1,25 +1,17 @@
 package com.teddy_blue.Entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "sharing_methods")
-public class SharingMethod {
+public class SharingMethod extends AbstractEntity{
 
-    @Id
-    private Long id;
+    @Column(name = "sharing_method_name", updatable = false)
     private String sharingMethodName;
 
     // Getters and setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getSharingMethodName() {
         return sharingMethodName;
