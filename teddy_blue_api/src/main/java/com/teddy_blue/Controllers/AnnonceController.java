@@ -1,7 +1,6 @@
 package com.teddy_blue.Controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.teddy_blue.Entities.Annonce;
 import com.teddy_blue.Services.AnnonceService;
+import com.teddy_blue.dtos.AnnonceCreate;
+import com.teddy_blue.dtos.AnnonceItem;
+import com.teddy_blue.dtos.AnnonceUpdate;
 
 @RestController
 @RequestMapping("/annonces")
@@ -28,36 +29,34 @@ public class AnnonceController {
         this.annonceService = annonceService;
     }
 
-    // Create a new annonce
     @PostMapping
-    public Annonce createAnnonce(@RequestBody Annonce annonce) {
-        return annonceService.createAnnonce(annonce);
+    public ResponseEntity<Void> createAnnonce(@RequestBody AnnonceCreate annonceCreate) {
+        annonceService.createAnnonce(annonceCreate);
+        return ResponseEntity.ok().build();
     }
 
-    // Get all annonces
-    @GetMapping
-    public List<Annonce> getAllAnnonces() {
-        return annonceService.getAllAnnonces();
-    }
-
-    // Get annonce by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Annonce>> getAnnonceById(@PathVariable Long id) {
-        Optional<Annonce> annonce = annonceService.getAnnonceById(id);
-        return ResponseEntity.ok().body(annonce);
+    public ResponseEntity<AnnonceItem> getAnnonceById(@PathVariable Long id) {
+        return annonceService.getAnnonceById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Update annonce
+    @GetMapping
+    public ResponseEntity<List<AnnonceItem>> getAllAnnonces() {
+        return ResponseEntity.ok(annonceService.getAllAnnonces());
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Annonce> updateAnnonce(@PathVariable Long id, @RequestBody Annonce annonceDetails) {
-        Annonce updatedAnnonce = annonceService.updateAnnonce(id, annonceDetails);
-        return ResponseEntity.ok(updatedAnnonce);
+    public ResponseEntity<Void> updateAnnonce(@PathVariable Long id, @RequestBody AnnonceUpdate annonceUpdate) {
+        annonceService.updateAnnonce(id, annonceUpdate);
+        return ResponseEntity.ok().build();
     }
 
-    // Delete annonce
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAnnonce(@PathVariable Long id) {
         annonceService.deleteAnnonce(id);
         return ResponseEntity.ok().build();
     }
+
 }

@@ -26,15 +26,15 @@ public class Annonce  extends AbstractEntity {
     @Column(name = "photo_link")
     private String photoLink;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sharing_method_id")
     private SharingMethod sharingMethod;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
     
@@ -97,6 +97,4 @@ public class Annonce  extends AbstractEntity {
         this.dateAdded = dateAdded;
     }
     
-    
-
 }

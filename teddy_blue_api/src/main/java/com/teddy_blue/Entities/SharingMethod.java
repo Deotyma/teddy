@@ -20,5 +20,10 @@ public class SharingMethod extends AbstractEntity{
     public void setSharingMethodName(String sharingMethodName) {
         this.sharingMethodName = sharingMethodName;
     }
+
+    public String getName() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 }
 
