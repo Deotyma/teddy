@@ -2,22 +2,50 @@ package com.teddy_blue.dtos;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
+import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.teddy_blue.dtos.validators.FileSize;
+import com.teddy_blue.dtos.validators.MimeType;
+
 public class AnnonceCreate {
 
+    @NotBlank
+    @Size(max = 255)
     private String title;
+    
+    @NotBlank
+    @Size(max = 5000)
     private String textAnnonce;
-    private String photoLink;
+
+    @MimeType({ MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE,
+	    MediaType.IMAGE_PNG_VALUE })
+    @FileSize
+    private MultipartFile file;
+    
     private LocalDate dateAdded;
-    private Long userId; // ID of the user associated with the annonce
-    private Long sharingMethodId; // ID of the sharing method for the annonce
-    private Long categoryId; // ID of the category for the annonce
+    
+    @NotNull
+    @Positive
+    private Long userId; 
+    
+    @NotNull
+    @Positive
+    private Long sharingMethodId;
+    
+    @NotNull
+    @Positive
+    private Long categoryId;
 
 
     public AnnonceCreate() {
 	this.setDateAdded(LocalDate.now());
     }
-
-    // Constructor with parameters, if needed
 
     public String getTitle() {
         return title;
@@ -35,12 +63,12 @@ public class AnnonceCreate {
         this.textAnnonce = textAnnonce;
     }
 
-    public String getPhotoLink() {
-        return photoLink;
+    public MultipartFile getFile() {
+	return file;
     }
 
-    public void setPhotoLink(String photoLink) {
-        this.photoLink = photoLink;
+    public void setFile(MultipartFile file) {
+	this.file = file;
     }
 
     public Long getUserId() {
@@ -59,10 +87,6 @@ public class AnnonceCreate {
         this.sharingMethodId = sharingMethodId;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
@@ -73,6 +97,10 @@ public class AnnonceCreate {
 
     public void setDateAdded(LocalDate dateAdded) {
 	this.dateAdded = dateAdded;
+    }
+
+    public Long getCategoryId() {
+	return categoryId;
     }
 }
 

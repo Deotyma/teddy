@@ -19,8 +19,12 @@ public class Category extends AbstractEntity {
         return categoryName;
     }
 
-    public void setCategoryName(String category_name) {
-        this.categoryName = category_name;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public Object findById(Long categoryId) {
+	return categoryId;
     }
 
 

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 @Entity
@@ -61,8 +62,8 @@ public class Annonce  extends AbstractEntity {
         return photoLink;
     }
 
-    public void setPhotoLink(String photoLink) {
-        this.photoLink = photoLink;
+    public void setPhotoLink(String imageUrl) {
+        this.photoLink = imageUrl;
     }
 
     public User getUser() {
@@ -95,6 +96,11 @@ public class Annonce  extends AbstractEntity {
 
     public void setDateAdded(LocalDate dateAdded) {
         this.dateAdded = dateAdded;
+    }
+    
+    @PrePersist
+    private void dateAdded() {
+	setDateAdded(LocalDate.now());
     }
     
 }

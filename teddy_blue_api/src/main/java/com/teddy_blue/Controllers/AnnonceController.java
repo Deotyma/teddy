@@ -1,6 +1,6 @@
-package com.teddy_blue.Controllers;
+ package com.teddy_blue.Controllers;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,14 +36,12 @@ public class AnnonceController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AnnonceItem> getAnnonceById(@PathVariable Long id) {
-        return annonceService.getAnnonceById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public Optional<AnnonceItem> getAnnonceById(@PathVariable Long id) {
+        return ((AnnonceController) annonceService).getAnnonceById(id);
     }
 
     @GetMapping
-    public ResponseEntity<List<AnnonceItem>> getAllAnnonces() {
+    public ResponseEntity<Object> getAllAnnonces() {
         return ResponseEntity.ok(annonceService.getAllAnnonces());
     }
 

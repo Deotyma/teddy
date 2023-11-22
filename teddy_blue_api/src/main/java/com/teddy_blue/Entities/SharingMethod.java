@@ -21,9 +21,9 @@ public class SharingMethod extends AbstractEntity{
         this.sharingMethodName = sharingMethodName;
     }
 
-    public String getName() {
-	// TODO Auto-generated method stub
-	return null;
+    public Object findById(Long sharingMethodId) {
+	return sharingMethodId;
     }
+
 }
 
