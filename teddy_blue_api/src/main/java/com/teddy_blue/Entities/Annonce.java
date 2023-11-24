@@ -62,8 +62,8 @@ public class Annonce  extends AbstractEntity {
         return photoLink;
     }
 
-    public void setPhotoLink(String imageUrl) {
-        this.photoLink = imageUrl;
+    public void setPhotoLink(String file) {
+        this.photoLink = file;
     }
 
     public User getUser() {

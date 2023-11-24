@@ -33,7 +33,7 @@ class FileStorage {
     private Path uploadPath;
 
     FileStorage() {
-	//
+	
     }
 
     @PostConstruct

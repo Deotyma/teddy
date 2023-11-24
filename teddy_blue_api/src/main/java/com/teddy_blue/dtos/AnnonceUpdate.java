@@ -28,7 +28,7 @@ public class AnnonceUpdate {
     @MimeType({ MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE,
 	    MediaType.IMAGE_PNG_VALUE })
     @FileSize
-    private MultipartFile file;
+    private MultipartFile photoLink;
     
     
     private LocalDate dateAdded;
@@ -66,13 +66,6 @@ public class AnnonceUpdate {
         this.textAnnonce = textAnnonce;
     }
 
-    public MultipartFile getFile() {
-   	return file;
-       }
-
-    public void setFile(MultipartFile file) {
-   	this.file = file;
-       }
 
     public Long getUserId() {
         return userId;
@@ -104,6 +97,14 @@ public class AnnonceUpdate {
 
     public Long getCategoryId() {
 	return categoryId;
+    }
+
+    public MultipartFile getPhotoLink() {
+        return photoLink;
+    }
+
+    public void setPhotoLink(MultipartFile photoLink) {
+        this.photoLink = photoLink;
     }
 
 }

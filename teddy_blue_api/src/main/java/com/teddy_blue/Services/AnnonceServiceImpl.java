@@ -31,14 +31,14 @@ public class AnnonceServiceImpl implements AnnonceService {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final SharingMethodRepository sharingMethodRepository;
-    private final FileStorage storage;
+    private final FileStorage fileStorage;
 
-    public AnnonceServiceImpl(FileStorage storage, AnnonceRepository annonceRepository, UserRepository userRepository, CategoryRepository categoryRepository, SharingMethodRepository sharingMethodRepository) {
+    public AnnonceServiceImpl(FileStorage fileStorage, AnnonceRepository annonceRepository, UserRepository userRepository, CategoryRepository categoryRepository, SharingMethodRepository sharingMethodRepository) {
         this.annonceRepository = annonceRepository;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
         this.sharingMethodRepository = sharingMethodRepository;
-        this.storage = storage;
+        this.fileStorage = fileStorage;
     }
     
     private AnnonceItem convertToAnnonceItem(Annonce annonce) {
@@ -68,9 +68,9 @@ public class AnnonceServiceImpl implements AnnonceService {
         Annonce entity = new Annonce();
         entity.setTitle(inputs.getTitle());
         entity.setTextAnnonce(inputs.getTextAnnonce());
-        MultipartFile file = inputs.getFile();
+        MultipartFile file = inputs.getPhotoLink();
 	String baseName = UUID.randomUUID().toString();
-	String fileName = storage.store(file, baseName);
+	String fileName = fileStorage.store(file, baseName);
 	entity.setPhotoLink(fileName);
         Optional<User> userOpt = userRepository.findById(inputs.getUserId());
         userOpt.ifPresent(entity::setUser);
@@ -102,11 +102,10 @@ public class AnnonceServiceImpl implements AnnonceService {
             Annonce entity = annonceOpt.get();
             entity.setTitle(inputs.getTitle());
             entity.setTextAnnonce(inputs.getTextAnnonce());
-            MultipartFile file = inputs.getFile();
-            if (file != null) {
+	    if ((inputs.getPhotoLink() != null)) {
                 String original = entity.getPhotoLink();
                 String baseName = UUID.randomUUID().toString();
-                String newFullName = storage.replace(file, baseName, original);
+                String newFullName = fileStorage.replace(inputs.getPhotoLink(), baseName, original);
                 entity.setPhotoLink(newFullName);
             }
             Optional<User> userOpt = userRepository.findById(inputs.getUserId());
@@ -130,9 +129,8 @@ public class AnnonceServiceImpl implements AnnonceService {
             Annonce entity = annonceOpt.get();
             String fullName = entity.getPhotoLink();
             annonceRepository.delete(entity);
-            storage.delete(fullName);
+            fileStorage.delete(fullName);
         }
-        // Handle case where Annonce is not found
         else {
             throw new EntityNotFoundException("Annonce with ID " + id + " not found");
         }
