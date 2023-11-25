@@ -4,7 +4,8 @@ const messages = {
         toy: "a perfect toy",
         for: "for your child.",
         description: "Here everyone can find, exchange, buy, sell or donate toys, books and educational material for children with special needs and not only.",
-        register: "Register"
+        register: "Register",
+        new: "A new annonces"
     },
     userForm:{
         firstName:"First name",
@@ -25,6 +26,9 @@ const messages = {
         hasNumber: 'The password must contain at least one number.',
         hasSymbol: 'The password must contain at least one symbol.',
       },
+      annonce:{
+        see: 'See'
+      }
 } 
 
 export default messages

@@ -4,7 +4,8 @@ const messages = {
         toy: "un jouet ideal",
         for: "pour ton enfant.",
         description: "Ici chaqun peut trouver, echanger, acheter, vendre ou donner les jouets, livres et materiel éducatif pour les enfants avec des besoins spécifiques et non seulement.",
-        register:"S'inscrire"
+        register:"S'inscrire",
+        new:"Les nouveaux annonces"
     },
     userForm:{
         firstName:"Prènom",
@@ -25,6 +26,9 @@ const messages = {
         hasNumber: 'Le mot de passe doit contenir au moins un chiffre.',
         hasSymbol: 'Le mot de passe doit contenir au moins un symbole.',
       },
+      annonce:{
+        see: 'Voir'
+      }
 } 
 
 export default messages
