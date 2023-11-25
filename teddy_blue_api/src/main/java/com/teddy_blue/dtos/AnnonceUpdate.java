@@ -1,13 +1,10 @@
 package com.teddy_blue.dtos;
 
-import java.time.LocalDate;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import org.springframework.http.MediaType;
+import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.teddy_blue.dtos.validators.FileSize;
@@ -15,96 +12,90 @@ import com.teddy_blue.dtos.validators.MimeType;
 
 public class AnnonceUpdate {
     
-    @NotBlank
-    @Size(max = 255)
-    private String title;
-    
-    @NotBlank
-    @Size(max = 5000)
-    private String textAnnonce;
-    
-    
-    @NotNull
-    @MimeType({ MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE,
+    private String id;
+        
+    	@Nullable
+        @Size(max = 255)
+        private String title;
+
+        @Nullable
+        @Size(max = 5000)
+        private String textAnnonce;
+
+        @MimeType({ MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE,
 	    MediaType.IMAGE_PNG_VALUE })
-    @FileSize
-    private MultipartFile photoLink;
-    
-    
-    private LocalDate dateAdded;
-    
-    @NotNull
-    @Positive
-    private Long userId; 
-    
-    @NotNull
-    @Positive
-    private Long sharingMethodId;
-    
-    @NotNull
-    @Positive
-    private Long categoryId;
+        @FileSize
+        private MultipartFile photoLink;
 
+        @Nullable
+        @Positive
+        private Long userId;
 
-    public AnnonceUpdate() {
-	this.setDateAdded(LocalDate.now());
-    }
+        @Nullable
+        @Positive
+        private Long sharingMethodId;
 
-    public String getTitle() {
-        return title;
-    }
+        @Nullable
+        @Positive
+        private Long categoryId;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+        public AnnonceUpdate() {
+        }
 
-    public String getTextAnnonce() {
-        return textAnnonce;
-    }
+        public String getTitle() {
+            return title;
+        }
 
-    public void setTextAnnonce(String textAnnonce) {
-        this.textAnnonce = textAnnonce;
-    }
+        public void setTitle(String title) {
+            this.title = title;
+        }
 
+        public String getTextAnnonce() {
+            return textAnnonce;
+        }
 
-    public Long getUserId() {
-        return userId;
-    }
+        public void setTextAnnonce(String textAnnonce) {
+            this.textAnnonce = textAnnonce;
+        }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+        public MultipartFile getPhotoLink() {
+            return photoLink;
+        }
 
-    public Long getSharingMethodId() {
-        return sharingMethodId;
-    }
+        public void setPhotoLink(MultipartFile photoLink) {
+            this.photoLink = photoLink;
+        }
 
-    public void setSharingMethodId(Long sharingMethodId) {
-        this.sharingMethodId = sharingMethodId;
-    }
+        public Long getUserId() {
+            return userId;
+        }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
+        public void setUserId(Long userId) {
+            this.userId = userId;
+        }
 
-    public LocalDate getDateAdded() {
-	return dateAdded;
-    }
+        public Long getSharingMethodId() {
+            return sharingMethodId;
+        }
 
-    public void setDateAdded(LocalDate dateAdded) {
-	this.dateAdded = dateAdded;
-    }
+        public void setSharingMethodId(Long sharingMethodId) {
+            this.sharingMethodId = sharingMethodId;
+        }
 
-    public Long getCategoryId() {
-	return categoryId;
-    }
+        public Long getCategoryId() {
+            return categoryId;
+        }
 
-    public MultipartFile getPhotoLink() {
-        return photoLink;
-    }
+        public void setCategoryId(Long categoryId) {
+            this.categoryId = categoryId;
+        }
 
-    public void setPhotoLink(MultipartFile photoLink) {
-        this.photoLink = photoLink;
-    }
+	public String getId() {
+	    return id;
+	}
+
+	public void setId(String id) {
+	    this.id = id;
+	}
 
 }
