@@ -20,6 +20,18 @@ const router = createRouter({
       component:()=>import ('../views/SignUp.vue')
     },
     {
+      path: '/users/:id/create',
+      name: 'create',
+      component:()=>import ('../views/CreateAnnonce.vue')
+    },
+
+    {
+      path: '/users/:id/update/:idAnnonce',
+      name: 'update',
+      component:()=>import ('../views/UpdateAnnonce.vue')
+    },
+    
+    {
       path: '/annonce-detail/:id',
       name: 'annonceDetail',
       component: () => import('../components/AnnonceDetail.vue')

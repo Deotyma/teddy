@@ -28,6 +28,13 @@ const messages = {
       },
       annonce:{
         see: 'See'
+      }, 
+      formAnnonce:{
+        create:'Create your annonce',
+        title:'Title',
+        text: 'Annonce text',
+        photo: 'Photo',
+        photoInstructions:"Must be JPEG, PNG or GIF, and not exceed 1MB."
       }
 } 
 
