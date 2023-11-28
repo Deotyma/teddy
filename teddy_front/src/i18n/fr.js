@@ -34,7 +34,7 @@ const messages = {
         title:'Titre',
         text: 'Text de l\'annonce',
         photo: 'Photo',
-        photoInstructions:"Le format de ficher doit avoir unde format suivan: JPEG, PNG ou GIF, et ne pas depasser 1MB."
+        photoInstructions:"Le format de ficher doit avoir unde format suivant: JPEG, PNG ou GIF, et ne pas depasser 1MB."
       }
 } 
 

@@ -111,7 +111,7 @@ onMounted(() => {
                             <label for="photoLink" class="form-label text-light fw-bolder fs-5">{{ $t('formAnnonce.photo') }}</label>
                             <input class="form-control form-control-lg" type="file" accept="image/png,image/gif,image/jpeg" id="photoLink" @change="fileSelected">
                             <div class="form-text text-light">{{ $t('formAnnonce.photoInstructions') }}</div>
-                            <img :src="`/teddyblueImg/${inputs.file}`" class="img-thumbnail" alt="Annonce image">
+                            <img :src="`/teddyblueImg/${inputs.file}`" class="img-thumbnail rounded float-start small-image" alt="Annonce image">
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="categories" class="form-label text-light fw-bolder fs-5">Categorie</label>
@@ -140,3 +140,10 @@ onMounted(() => {
         </div>
      </div>
 </template>
+
+<style>
+    .small-image{
+    width: 100px;
+    height: auto;
+}
+</style>
