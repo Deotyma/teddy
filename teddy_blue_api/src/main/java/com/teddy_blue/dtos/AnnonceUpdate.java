@@ -1,14 +1,14 @@
 package com.teddy_blue.dtos;
 
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
-
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.teddy_blue.dtos.validators.FileSize;
 import com.teddy_blue.dtos.validators.MimeType;
+
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 public class AnnonceUpdate {
     

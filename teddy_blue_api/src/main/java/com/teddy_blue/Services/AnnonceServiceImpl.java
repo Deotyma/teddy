@@ -5,8 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +20,8 @@ import com.teddy_blue.Repositories.UserRepository;
 import com.teddy_blue.dtos.AnnonceCreate;
 import com.teddy_blue.dtos.AnnonceItem;
 import com.teddy_blue.dtos.AnnonceUpdate;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 @Transactional

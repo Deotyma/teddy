@@ -2,16 +2,16 @@ package com.teddy_blue.dtos;
 
 import java.time.LocalDate;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
-
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.teddy_blue.dtos.validators.FileSize;
 import com.teddy_blue.dtos.validators.MimeType;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 public class AnnonceCreate {
 

@@ -1,9 +1,9 @@
 package com.teddy_blue.dtos.validators;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-
 import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class FileSizeValidator
 implements ConstraintValidator<FileSize, MultipartFile> {

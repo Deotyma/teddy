@@ -2,11 +2,11 @@ package com.teddy_blue.dtos.validators;
 
 import java.util.Arrays;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class MimeTypeValidator
 	implements ConstraintValidator<MimeType, MultipartFile> {

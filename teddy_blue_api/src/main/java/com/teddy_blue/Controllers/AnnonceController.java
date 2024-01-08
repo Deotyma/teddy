@@ -2,8 +2,6 @@
 
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +19,8 @@ import com.teddy_blue.Services.AnnonceService;
 import com.teddy_blue.dtos.AnnonceCreate;
 import com.teddy_blue.dtos.AnnonceItem;
 import com.teddy_blue.dtos.AnnonceUpdate;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/annonces")
