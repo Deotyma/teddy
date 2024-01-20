@@ -3,6 +3,7 @@ package com.teddy_blue.Services;
 import java.util.List;
 import java.util.Optional;
 
+import com.teddy_blue.Entities.Locality;
 import com.teddy_blue.Entities.User;
 
 public interface UserService {
@@ -15,7 +16,7 @@ public interface UserService {
 
     User updateUser(Long id, User user);
     
-    User updateUserLocality(Long userId, String zipCode, String localityName);
+    Locality updateUserLocality(Long userId, String zipCode, String localityName);
 
     void deleteUser(Long id);
 

@@ -3,16 +3,15 @@ package com.teddy_blue.Controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teddy_blue.Entities.Locality;
-import com.teddy_blue.Entities.LocalityId;
 import com.teddy_blue.Services.LocalityService;
 
 @RestController
@@ -26,25 +25,36 @@ public class LocalityController {
     }
 
     @GetMapping
-    public List<Locality> getAllCities() {
+    public List<Locality> getAllLocalities() {
         return localityService.getAllLocalities();
     }
 
-    @GetMapping("/{zipCode}/{localityName}")
-    public ResponseEntity<Locality> getLocalityById(@PathVariable String zipCode, @PathVariable String localityName) {
-        return localityService.getLocalityById(new LocalityId(zipCode, localityName))
-                .map(locality -> ResponseEntity.ok(locality))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping("/{id}")
+    public ResponseEntity<Locality> getLocalityById(@PathVariable Long id) {
+        return localityService.getLocalityById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public Locality createLocality(@RequestBody Locality locality) {
-        return localityService.addOrUpdateLocality(locality);
+        return localityService.saveLocality(locality);
     }
 
-    @DeleteMapping("/{zipCode}/{localityName}")
-    public ResponseEntity<Void> deleteLocality(@PathVariable String zipCode, @PathVariable String localityName) {
-        localityService.deleteLocality(new LocalityId(zipCode, localityName));
-        return ResponseEntity.ok().build();
+    @PutMapping("/{id}")
+    public ResponseEntity<Locality> updateLocality(@PathVariable Long id, @RequestBody Locality localityDetails) {
+        return localityService.updateLocality(id, localityDetails)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    public ResponseEntity<Void> deleteLocality(@PathVariable Long id) {
+        try {
+            localityService.deleteLocality(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
+

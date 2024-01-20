@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.teddy_blue.Entities.Locality;
-import com.teddy_blue.Entities.LocalityId;
 import com.teddy_blue.Entities.User;
 import com.teddy_blue.Repositories.LocalityRepository;
 import com.teddy_blue.Repositories.UserRepository;
@@ -54,21 +53,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserLocality(Long userId, String zipCode, String localityName) {
-        User user = userRepository.findById(userId)
-                     .orElseThrow();
-
-        LocalityId localityId = new LocalityId(zipCode, localityName);
-        Locality locality = localityRepository.findById(localityId)
-                              .orElseGet(() -> {
-                                  Locality newLocality = new Locality();
-                                  newLocality.setId(localityId);
-                                  // Set other necessary fields of Locality, if any
-                                  return localityRepository.save(newLocality);
-                              });
-
-        user.setLocality(locality);
-        return userRepository.save(user);
+    public Locality updateUserLocality(Long userId,
+	    String zipCode, String localityName) {
+	// TODO Auto-generated method stub
+	return null;
     }
 
 }
