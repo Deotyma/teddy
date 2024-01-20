@@ -31,11 +31,11 @@ VALUES
 ('sell');
 
 -- Insert users
-INSERT INTO users(email, first_name, last_name, nick_name, password, zip_code, locality_name) 
+INSERT INTO users(email, first_name, last_name, nick_name, password, locality_id)
 VALUES 
-('user1@example.com', 'Alice', 'Smith', 'AliceS', 'password1', '75000', 'Paris'),
-('user2@example.com', 'Bob', 'Johnson', 'BobJ', 'password2', '94400', 'Créteil'),
-('user3@example.com', 'Charlie', 'Davis', 'CharlieD', 'password3', '93120', 'La Courneuve');
+('user1@example.com', 'Alice', 'Smith', 'AliceS', 'password1', (SELECT id FROM localities WHERE zip_code = '75000' AND locality_name = 'Paris')),
+('user2@example.com', 'Bob', 'Johnson', 'BobJ', 'password2', (SELECT id FROM localities WHERE zip_code = '94400' AND locality_name = 'Créteil')),
+('user3@example.com', 'Charlie', 'Davis', 'CharlieD', 'password3', (SELECT id FROM localities WHERE zip_code = '67890' AND locality_name = 'Lyon'));
 
 -- Insert annonces
 INSERT INTO annonces(title, text_annonce, photo_link, user_id, sharing_method_id, category_id, date_added) 

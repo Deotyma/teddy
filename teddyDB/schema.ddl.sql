@@ -8,9 +8,9 @@ DROP TABLE IF EXISTS localities;
 
 -- Creating tables
 CREATE TABLE localities (
-    zip_code VARCHAR (5) NOT NULL,
-    locality_name VARCHAR(255) NOT NULL,
-    PRIMARY KEY (zip_code, locality_name)
+    id SERIAL PRIMARY KEY,
+    zip_code VARCHAR (5) NOT NULL UNIQUE,
+    locality_name VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE categories (
@@ -30,9 +30,8 @@ CREATE TABLE users (
     last_name VARCHAR(255) NOT NULL,
     nick_name VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    zip_code VARCHAR(5) NOT NULL,
-    locality_name VARCHAR(255) NOT NULL,
-    FOREIGN KEY (zip_code, locality_name) REFERENCES localities(zip_code, locality_name) ON DELETE CASCADE
+    locality_id INT NOT NULL,
+    FOREIGN KEY (locality_id) REFERENCES localities(id) ON DELETE CASCADE
 );
 
 CREATE TABLE annonces (
