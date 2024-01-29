@@ -1,21 +1,22 @@
 package com.teddy_blue.Services;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.teddy_blue.Entities.User;
 
 public interface UserService {
     
-    User save(User user);
+    User saveUser(User user);
 
-    User findByPseudoUser(String pseudoUser);
+    Optional<User> getUserById(Long id);
 
-    User findByEmail(String email);
+    List<User> getAllUsers();
 
-    User findById(Long id);
+    User updateUser(Long id, User user);
+    
+    User updateUserLocality(Long userId, String zipCode, String localityName);
 
-    List<User> findAll();
-
-    void deleteById(Long id);
+    void deleteUser(Long id);
 
 }

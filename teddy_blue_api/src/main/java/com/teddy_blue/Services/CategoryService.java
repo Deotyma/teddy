@@ -6,5 +6,5 @@ import com.teddy_blue.Entities.Category;
 
 public interface CategoryService {
 
-    List<Category> getAllCategories();
+    List<Category> findAll();
 }

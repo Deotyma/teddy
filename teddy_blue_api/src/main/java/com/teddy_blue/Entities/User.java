@@ -1,43 +1,48 @@
 package com.teddy_blue.Entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User {
-    
-    @Id
-    @Column(name = "id_user")
-    private Long idUser;
+public class User extends AbstractEntity {
 
-    @Column(name="first_name", nullable = false)
-    private String firstName;
-    
-    @Column(name="last_name", nullable = false)
-    private String lastName;
-    
-    @Column(name="pseudo_user", nullable = false, unique = true)
-    private String pseudoUser;
-    
-    @Column(name="email", nullable = false, unique = true)
+    public User() {
+    }
+
+    @Column(name = "email")
     private String email;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumns({
-        @JoinColumn(name = "zip_code", referencedColumnName = "zipCode"),
-        @JoinColumn(name = "city_name", referencedColumnName = "city")
-    })
-    private City city;
-    
-    @Column(name="password", nullable = false)
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "password")
     private String password;
+    
+    @ManyToOne
+    @JoinColumns({
+        @JoinColumn(name = "zip_code", referencedColumnName = "zip_code"),
+        @JoinColumn(name = "locality_name", referencedColumnName = "locality_name")
+    })
+    private Locality locality;
+    
+    @Column(name = "nick_name")
+    private String nickName;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -55,30 +60,6 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getPseudoUser() {
-        return pseudoUser;
-    }
-
-    public void setPseudoUser(String pseudoUser) {
-        this.pseudoUser = pseudoUser;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -87,12 +68,20 @@ public class User {
         this.password = password;
     }
 
-    public Long getIdUser() {
-        return idUser;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public Locality getLocality() {
+        return locality;
+    }
+
+    public void setLocality(Locality locality) {
+        this.locality = locality;
     }
 
 }

@@ -19,7 +19,7 @@ public class CategoryServiceImpl
     }
 
     @Override
-    public List<Category> getAllCategories() {
+    public List<Category> findAll() {
 	return categoryRepository.findAll();
     }
 

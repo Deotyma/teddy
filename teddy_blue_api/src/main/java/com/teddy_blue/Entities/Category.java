@@ -1,45 +1,31 @@
 package com.teddy_blue.Entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "categories")
-public class Category {
-
-    @Id
-    @Column(name = "id_category")
-    private String idCategory;
-
-    @Column(name = "category", updatable = false)
-    private String category;
-
+public class Category extends AbstractEntity {
+    
+    @Column(name = "category_name", updatable = false)
+    private String categoryName;
+    
     public Category() {
 
     }
 
-    public String getCategory() {
-	return category;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategory(String category) {
-	this.category = category;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
-    public String getIdCategory() {
-	return idCategory;
+    public Object findById(Long categoryId) {
+	return categoryId;
     }
 
-    public void setIdCategory(String idCategory) {
-	this.idCategory = idCategory;
-    }
-
-    @Override
-    public String toString() {
-	return "Category [idCategory=" + idCategory
-		+ ", category=" + category + "]";
-    }
 
 }
