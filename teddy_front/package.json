@@ -11,6 +11,7 @@
   "dependencies": {
     "@vuelidate/core": "^2.0.2",
     "@vuelidate/validators": "^2.0.2",
+    "axios": "^1.6.7",
     "node-sass": "^9.0.0",
     "vue": "^3.2.47",
     "vue-i18n": "^9.2.2",
