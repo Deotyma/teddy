@@ -2,8 +2,8 @@ package com.teddy_blue.Entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -26,11 +26,8 @@ public class User extends AbstractEntity {
     @Column(name = "password")
     private String password;
     
-    @ManyToOne
-    @JoinColumns({
-        @JoinColumn(name = "zip_code", referencedColumnName = "zip_code"),
-        @JoinColumn(name = "locality_name", referencedColumnName = "locality_name")
-    })
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "locality_id")
     private Locality locality;
     
     @Column(name = "nick_name")
