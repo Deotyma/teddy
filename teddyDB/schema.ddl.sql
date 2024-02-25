@@ -9,8 +9,11 @@ DROP TABLE IF EXISTS localities;
 -- Creating tables
 CREATE TABLE localities (
     id SERIAL PRIMARY KEY,
-    zip_code VARCHAR (5) NOT NULL UNIQUE,
-    locality_name VARCHAR(255) NOT NULL UNIQUE
+    zip_code VARCHAR (5) NOT NULL,
+    city_code VARCHAR(50) NOT NULL,
+    longitude DECIMAL(12,9),
+    latitude DECIMAL(12,9),
+    UNIQUE(zip_code, city_code, latitude, longitude)
 );
 
 CREATE TABLE categories (
@@ -25,13 +28,11 @@ CREATE TABLE sharing_methods (
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    first_name VARCHAR(255) NOT NULL,
-    last_name VARCHAR(255) NOT NULL,
-    nick_name VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    locality_id INT NOT NULL,
-    FOREIGN KEY (locality_id) REFERENCES localities(id) ON DELETE CASCADE
+    email VARCHAR(100) UNIQUE NOT NULL,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    nick_name VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE annonces (
@@ -42,10 +43,12 @@ CREATE TABLE annonces (
     user_id INT,
     sharing_method_id INT,
     category_id INT,
+    locality_id INT,
     date_added DATE NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (sharing_method_id) REFERENCES sharing_methods(id) ON DELETE CASCADE,
-    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE,
+    FOREIGN KEY (locality_id) REFERENCES localities(id) ON DELETE CASCADE
 );
 
 CREATE TABLE favorites (
