@@ -2,9 +2,6 @@ package com.teddy_blue.Entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,13 +22,6 @@ public class User extends AbstractEntity {
 
     @Column(name = "password")
     private String password;
-    
-    @ManyToOne
-    @JoinColumns({
-        @JoinColumn(name = "zip_code", referencedColumnName = "zip_code"),
-        @JoinColumn(name = "locality_name", referencedColumnName = "locality_name")
-    })
-    private Locality locality;
     
     @Column(name = "nick_name")
     private String nickName;
@@ -74,14 +64,6 @@ public class User extends AbstractEntity {
 
     public void setNickName(String nickName) {
         this.nickName = nickName;
-    }
-
-    public Locality getLocality() {
-        return locality;
-    }
-
-    public void setLocality(Locality locality) {
-        this.locality = locality;
     }
 
 }
