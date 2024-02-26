@@ -11,13 +11,6 @@ public interface LocalityService {
     Optional<Locality> getLocalityById(Long id);
 
     List<Locality> getAllLocalities();
-
-    Locality addOrUpdateLocality(Locality locality);
-
-    void deleteLocality(Long id);
-    
-    Optional<Locality> findByZipCodeAndLocalityName(String zipCode, String localityName);
-
-    Optional<Locality> updateLocality(Long id,
-	    Locality localityDetails);
+ 
+    Optional<Locality> findByZipCodeAndCityCode(String zipCode, String cityCode);
 }

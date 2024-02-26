@@ -19,9 +19,16 @@ public class Locality extends AbstractEntity {
     private String zipCode;
 
     @NotNull
-    @Size(max = 255)
-    @Column(name = "locality_name", nullable = false, unique = true)
-    private String localityName;
+    @Size(max = 50)
+    @Column(name = "city_code", nullable = false, unique = true)
+    private String cityCode;
+    
+    @Column(name = "longitude")
+    private Double longitude;
+    
+    @Column(name = "latitude")
+    private Double latitude;
+    
 
     public String getZipCode() {
         return zipCode;
@@ -31,12 +38,28 @@ public class Locality extends AbstractEntity {
         this.zipCode = zipCode;
     }
 
-    public String getLocalityName() {
-        return localityName;
+    public String getCityCode() {
+        return cityCode;
     }
 
-    public void setLocalityName(String localityName) {
-        this.localityName = localityName;
+    public void setCityCode(String localityName) {
+        this.cityCode = localityName;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
 }

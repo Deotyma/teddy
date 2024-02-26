@@ -35,36 +35,7 @@ public class LocalityServiceImpl implements LocalityService {
     }
 
     @Override
-    public Locality addOrUpdateLocality(Locality locality) {
-        // Check if a locality with the given zipCode and localityName already exists
-        Optional<Locality> existingLocality = localityRepository
-                .findByZipCodeAndLocalityName(locality.getZipCode(), locality.getLocalityName());
-
-        if (existingLocality.isPresent()) {
-            // If exists, update the existing locality
-            Locality updatedLocality = existingLocality.get();
-            updatedLocality.setZipCode(locality.getZipCode());
-            updatedLocality.setLocalityName(locality.getLocalityName());
-            return localityRepository.save(updatedLocality);
-        } else {
-            // If not exists, create a new locality
-            return localityRepository.save(locality);
-        }
-    }
-
-    @Override
-    public void deleteLocality(Long id) {
-        localityRepository.deleteById(id);
-    }
-
-    @Override
-    public Optional<Locality> findByZipCodeAndLocalityName(String zipCode, String localityName) {
-        return localityRepository.findByZipCodeAndLocalityName(zipCode, localityName);
-    }
-
-    @Override
-    public Optional<Locality> updateLocality(Long id,
-	    Locality localityDetails) {
-	return Optional.empty();
+    public Optional<Locality> findByZipCodeAndCityCode(String zipCode, String cityCode) {
+        return localityRepository.findByZipCodeAndCityCode(zipCode, cityCode);
     }
 }

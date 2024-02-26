@@ -9,7 +9,7 @@ import com.teddy_blue.Entities.Locality;
 public interface LocalityRepository
 	extends JpaRepository<Locality, Long> {
 
-    Optional<Locality> findByZipCodeAndLocalityName(
-	    String zipCode, String localityName);
+    Optional<Locality> findByZipCodeAndCityCode(
+	    String zipCode, String cityCode);
 
 }
