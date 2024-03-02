@@ -1,10 +1,10 @@
 -- Dropping tables in reverse dependency order
-DROP TABLE IF EXISTS favorites;
-DROP TABLE IF EXISTS annonces;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS sharing_methods;
-DROP TABLE IF EXISTS categories;
-DROP TABLE IF EXISTS localities;
+DROP TABLE IF EXISTS favorites CASCADE;
+DROP TABLE IF EXISTS annonces CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS sharing_methods CASCADE;
+DROP TABLE IF EXISTS categories CASCADE;
+DROP TABLE IF EXISTS localities CASCADE;
 
 -- Creating tables
 CREATE TABLE localities (
