@@ -32,6 +32,10 @@ public class Annonce  extends AbstractEntity {
     private User user;
     
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "locality_id")
+    private Locality locality;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sharing_method_id")
     private SharingMethod sharingMethod;
     
@@ -101,6 +105,14 @@ public class Annonce  extends AbstractEntity {
     @PrePersist
     private void dateAdded() {
 	setDateAdded(LocalDate.now());
+    }
+
+    public Locality getLocality() {
+        return locality;
+    }
+
+    public void setLocality(Locality locality) {
+        this.locality = locality;
     }
     
 }

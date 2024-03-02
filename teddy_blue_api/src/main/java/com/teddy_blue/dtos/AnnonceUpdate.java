@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.teddy_blue.dtos.validators.FileSize;
 import com.teddy_blue.dtos.validators.MimeType;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
@@ -29,7 +30,11 @@ public class AnnonceUpdate {
 
         @Nullable
         @Positive
-        private Long userId;
+        private Long localityId;
+        
+        @NotNull
+        @Positive
+        private Long userId; 
 
         @Nullable
         @Positive
@@ -96,6 +101,14 @@ public class AnnonceUpdate {
 
 	public void setId(String id) {
 	    this.id = id;
+	}
+
+	public Long getLocalityId() {
+	    return localityId;
+	}
+
+	public void setLocalityId(Long localityId) {
+	    this.localityId = localityId;
 	}
 
 }

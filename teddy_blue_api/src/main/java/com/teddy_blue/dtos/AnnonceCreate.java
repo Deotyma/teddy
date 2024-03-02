@@ -33,6 +33,10 @@ public class AnnonceCreate {
     
     @NotNull
     @Positive
+    private Long localityId; 
+    
+    @NotNull
+    @Positive
     private Long userId; 
     
     @NotNull
@@ -103,6 +107,14 @@ public class AnnonceCreate {
 
     public void setPhotoLink(MultipartFile photoLink) {
         this.photoLink = photoLink;
+    }
+
+    public Long getLocalityId() {
+        return localityId;
+    }
+
+    public void setLocalityId(Long localityId) {
+        this.localityId = localityId;
     }
 }
 

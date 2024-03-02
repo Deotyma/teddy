@@ -62,5 +62,10 @@ public class Locality extends AbstractEntity {
         this.latitude = latitude;
     }
 
+    public Long getLocalityId() {
+	return id;
+    }
+    
+
 }
 

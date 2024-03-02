@@ -11,10 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.teddy_blue.Entities.Annonce;
 import com.teddy_blue.Entities.Category;
+import com.teddy_blue.Entities.Locality;
 import com.teddy_blue.Entities.SharingMethod;
 import com.teddy_blue.Entities.User;
 import com.teddy_blue.Repositories.AnnonceRepository;
 import com.teddy_blue.Repositories.CategoryRepository;
+import com.teddy_blue.Repositories.LocalityRepository;
 import com.teddy_blue.Repositories.SharingMethodRepository;
 import com.teddy_blue.Repositories.UserRepository;
 import com.teddy_blue.dtos.AnnonceCreate;
@@ -28,13 +30,15 @@ import jakarta.persistence.EntityNotFoundException;
 public class AnnonceServiceImpl implements AnnonceService {
 
     private final AnnonceRepository annonceRepository;
+    private final LocalityRepository localityRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final SharingMethodRepository sharingMethodRepository;
     private final FileStorage fileStorage;
 
-    public AnnonceServiceImpl(FileStorage fileStorage, AnnonceRepository annonceRepository, UserRepository userRepository, CategoryRepository categoryRepository, SharingMethodRepository sharingMethodRepository) {
+    public AnnonceServiceImpl(FileStorage fileStorage, AnnonceRepository annonceRepository,LocalityRepository localityRepository, UserRepository userRepository, CategoryRepository categoryRepository, SharingMethodRepository sharingMethodRepository) {
         this.annonceRepository = annonceRepository;
+        this.localityRepository = localityRepository;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
         this.sharingMethodRepository = sharingMethodRepository;
@@ -47,6 +51,11 @@ public class AnnonceServiceImpl implements AnnonceService {
         item.setTitle(annonce.getTitle());
         item.setTextAnnonce(annonce.getTextAnnonce());
         item.setPhotoLink(annonce.getPhotoLink());
+        
+        if (annonce.getLocality() != null) {
+            item.setLocalityId(annonce.getLocality().getId());
+            item.setLocalityId(annonce.getLocality().getLocalityId()); // Assuming Locality has getName method
+        }
         
         if (annonce.getUser() != null) {
             item.setUserId(annonce.getUser().getId());
@@ -69,15 +78,30 @@ public class AnnonceServiceImpl implements AnnonceService {
         entity.setTitle(inputs.getTitle());
         entity.setTextAnnonce(inputs.getTextAnnonce());
         MultipartFile file = inputs.getPhotoLink();
-	String baseName = UUID.randomUUID().toString();
-	String fileName = fileStorage.store(file, baseName);
-	entity.setPhotoLink(fileName);
-        Optional<User> userOpt = userRepository.findById(inputs.getUserId());
-        userOpt.ifPresent(entity::setUser);
-        Optional<SharingMethod> sharingMethodOpt = sharingMethodRepository.findById(inputs.getSharingMethodId());
-        sharingMethodOpt.ifPresent(entity::setSharingMethod);
-        Optional<Category> categoryOpt = categoryRepository.findById(inputs.getCategoryId());
-        categoryOpt.ifPresent(entity::setCategory);
+        String baseName = UUID.randomUUID().toString();
+        String fileName = fileStorage.store(file, baseName);
+        entity.setPhotoLink(fileName);
+        
+        // Set Locality
+        Locality locality = localityRepository.findById(inputs.getLocalityId())
+            .orElseThrow(() -> new EntityNotFoundException("Locality not found"));
+        entity.setLocality(locality);
+
+        // Set User
+        User user = userRepository.findById(inputs.getUserId())
+            .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        entity.setUser(user);
+
+        // Set SharingMethod
+        SharingMethod sharingMethod = sharingMethodRepository.findById(inputs.getSharingMethodId())
+            .orElseThrow(() -> new EntityNotFoundException("Sharing Method not found"));
+        entity.setSharingMethod(sharingMethod);
+
+        // Set Category
+        Category category = categoryRepository.findById(inputs.getCategoryId())
+            .orElseThrow(() -> new EntityNotFoundException("Category not found"));
+        entity.setCategory(category);
+
         annonceRepository.save(entity);
     }
 
@@ -108,13 +132,27 @@ public class AnnonceServiceImpl implements AnnonceService {
                 String newFullName = fileStorage.replace(inputs.getPhotoLink(), baseName, original);
                 entity.setPhotoLink(newFullName);
             }
-            Optional<User> userOpt = userRepository.findById(inputs.getUserId());
-            userOpt.ifPresent(entity::setUser);
-            Optional<SharingMethod> sharingMethodOpt = sharingMethodRepository.findById(inputs.getSharingMethodId());
-            sharingMethodOpt.ifPresent(entity::setSharingMethod);
-            Optional<Category> categoryOpt = categoryRepository.findById(inputs.getCategoryId());
-            categoryOpt.ifPresent(entity::setCategory);
-            annonceRepository.save(entity);
+	 // Set Locality
+	 Locality locality = localityRepository.findById(inputs.getLocalityId())
+		 .orElseThrow(() -> new EntityNotFoundException("Locality not found"));
+	 entity.setLocality(locality);
+
+	        // Set User
+	        User user = userRepository.findById(inputs.getUserId())
+	            .orElseThrow(() -> new EntityNotFoundException("User not found"));
+	        entity.setUser(user);
+
+	        // Set SharingMethod
+	        SharingMethod sharingMethod = sharingMethodRepository.findById(inputs.getSharingMethodId())
+	            .orElseThrow(() -> new EntityNotFoundException("Sharing Method not found"));
+	        entity.setSharingMethod(sharingMethod);
+
+	        // Set Category
+	        Category category = categoryRepository.findById(inputs.getCategoryId())
+	            .orElseThrow(() -> new EntityNotFoundException("Category not found"));
+	        entity.setCategory(category);
+
+	        annonceRepository.save(entity);
         }
         else {
             throw new EntityNotFoundException("Annonce with ID " + id + " not found");

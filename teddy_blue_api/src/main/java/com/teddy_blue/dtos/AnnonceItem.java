@@ -9,6 +9,7 @@ public class AnnonceItem {
     private String textAnnonce;
     private String photoLink;
     private LocalDate dateAdded;
+    private Long localityId;
     private Long userId;
     private String userEmail; 
     private Long categoryId;
@@ -105,6 +106,14 @@ public class AnnonceItem {
 
     public void setSharingMethodName(String sharingMethodName) {
         this.sharingMethodName = sharingMethodName;
+    }
+
+    public Long getLocalityId() {
+        return localityId;
+    }
+
+    public void setLocalityId(Long localityId) {
+        this.localityId = localityId;
     }
 
 }
