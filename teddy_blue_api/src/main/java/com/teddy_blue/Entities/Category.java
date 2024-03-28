@@ -23,9 +23,4 @@ public class Category extends AbstractEntity {
         this.categoryName = categoryName;
     }
 
-    public Object findById(Long categoryId) {
-	return categoryId;
-    }
-
-
 }

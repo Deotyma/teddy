@@ -20,10 +20,5 @@ public class SharingMethod extends AbstractEntity{
     public void setSharingMethodName(String sharingMethodName) {
         this.sharingMethodName = sharingMethodName;
     }
-
-    public Object findById(Long sharingMethodId) {
-	return sharingMethodId;
-    }
-
 }
 
