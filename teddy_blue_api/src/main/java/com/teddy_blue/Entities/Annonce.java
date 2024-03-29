@@ -1,6 +1,7 @@
 package com.teddy_blue.Entities;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -113,6 +114,22 @@ public class Annonce  extends AbstractEntity {
 
     public void setLocality(Locality locality) {
         this.locality = locality;
+    }
+
+    @Override
+    public int hashCode() {
+	return Objects.hash(textAnnonce, title);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj) {// performance
+	    return true;
+	}
+	// pattern matching
+	return obj instanceof Annonce other && Objects.equals(textAnnonce,
+			other.textAnnonce)
+			&& Objects.equals(title, other.title);
     }
     
 }
