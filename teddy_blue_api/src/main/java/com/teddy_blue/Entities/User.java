@@ -1,12 +1,21 @@
 package com.teddy_blue.Entities;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class User extends AbstractEntity {
+public class User extends AbstractEntity implements UserDetails {
 
     public User() {
     }
@@ -25,6 +34,9 @@ public class User extends AbstractEntity {
     
     @Column(name = "nick_name")
     private String nickName;
+    
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public String getEmail() {
         return email;
@@ -50,6 +62,7 @@ public class User extends AbstractEntity {
         this.lastName = lastName;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -64,6 +77,44 @@ public class User extends AbstractEntity {
 
     public void setNickName(String nickName) {
         this.nickName = nickName;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+	return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+	return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+	return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+	return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+	return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+	return true;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
 }

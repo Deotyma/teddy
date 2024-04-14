@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.teddy_blue.Entities.Role;
 import com.teddy_blue.Entities.User;
-import com.teddy_blue.Repositories.LocalityRepository;
 import com.teddy_blue.Repositories.UserRepository;
 
 @Service
@@ -14,12 +14,16 @@ public class UserServiceImpl implements UserService {
     
     private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository, LocalityRepository localityRepository) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
+    
+    
     @Override
     public User saveUser(User user) {
+        if (user.getRole() == null) {
+            user.setRole(Role.USER);
+        }
         return userRepository.save(user);
     }
 
