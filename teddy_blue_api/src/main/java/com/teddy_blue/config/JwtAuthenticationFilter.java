@@ -18,22 +18,22 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
-    public JwtAuthenticationFilter(JwtService jwtService) {
-   	this.jwtService = jwtService;
-	this.userDetailsService = null;
-       }
     
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-
+    
+    public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
+   	this.jwtService = jwtService;
+	this.userDetailsService = userDetailsService;
+       }
+    
     @Override
     protected void doFilterInternal(
 	    @NonNull HttpServletRequest request,
 	    @NonNull HttpServletResponse response,
 	    @NonNull FilterChain filterChain)
 	    throws ServletException, IOException {
-		final String authHeader = request.getHeader("Authentification");
+		final String authHeader = request.getHeader("Authorization");
 		final String jwt;
 		final String userEmail;
 		if ((authHeader==null) || !authHeader.startsWith("Bearer ")) {

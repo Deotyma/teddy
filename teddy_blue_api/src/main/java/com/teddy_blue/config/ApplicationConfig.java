@@ -16,11 +16,11 @@ import com.teddy_blue.Repositories.UserRepository;
 @Configuration
 public class ApplicationConfig {
 
-      public ApplicationConfig() {
-	super();
-    }
-
-    private final UserRepository userRepository = null;
+    private final UserRepository userRepository;
+    
+    public ApplicationConfig(UserRepository userRepository) {
+   	this.userRepository = userRepository;
+       }
 
       @Bean
       public UserDetailsService userDetailsService() {
