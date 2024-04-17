@@ -13,9 +13,7 @@ const messages = {
         email:"Email",
         password:"Password",
         repeatPassword:"Repeat password",
-        address:"Address",
-        zipCode:"Zip code",
-        town:"Town"
+        nickName:"Nick name"
     },
     errorMessages: {
         required: 'This field is required.',
@@ -25,6 +23,7 @@ const messages = {
         hasLowercase: 'The password must contain at least one lowercase letter.',
         hasNumber: 'The password must contain at least one number.',
         hasSymbol: 'The password must contain at least one symbol.',
+        repeatPassword:'The there is a difference between two passwords'
       },
       annonce:{
         see: 'See'
@@ -34,6 +33,8 @@ const messages = {
         title:'Title',
         text: 'Annonce text',
         photo: 'Photo',
+        zipCode:"Zip code",
+        town:"Town",
         photoInstructions:"Must be JPEG, PNG or GIF, and not exceed 1MB."
       }
 } 

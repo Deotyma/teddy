@@ -13,9 +13,7 @@ const messages = {
         email:"Email",
         password:"Mot de pass",
         repeatPassword:"Confirmer le mot de passe",
-        address:"Adresse",
-        zipCode:"Code postal",
-        town:"Ville"
+        nickName:"Pseudonyme"
     },
     errorMessages: {
         required: 'Ce champ est requis.',
@@ -25,6 +23,7 @@ const messages = {
         hasLowercase: 'Le mot de passe doit contenir au moins une lettre minuscule.',
         hasNumber: 'Le mot de passe doit contenir au moins un chiffre.',
         hasSymbol: 'Le mot de passe doit contenir au moins un symbole.',
+        repeatPassword:'Il y a la difference entre deux mots de pass'
       },
       annonce:{
         see: 'Voir'
@@ -34,6 +33,8 @@ const messages = {
         title:'Titre',
         text: 'Text de l\'annonce',
         photo: 'Photo',
+        zipCode:"Code postal",
+        town:"Ville",
         photoInstructions:"Le format de ficher doit avoir unde format suivant: JPEG, PNG ou GIF, et ne pas depasser 1MB."
       }
 } 

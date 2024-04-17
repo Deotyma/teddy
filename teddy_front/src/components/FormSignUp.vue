@@ -1,65 +1,74 @@
 <script setup>
-    import { ref } from 'vue';
+    import { ref, reactive } from 'vue';
     import { useVuelidate } from '@vuelidate/core';
-    import { required, minLength, maxLength, email,sameAs, helpers} from '@vuelidate/validators'
-const createdUser= ref({
+    import { required, minLength, maxLength, email, sameAs, helpers} from '@vuelidate/validators';
+    import axios from 'axios';
+
+const inputs= reactive({
         firstName:"",
         lastName:"",
         email:"",
         password:"",
-        repeatPassword:"",
-        address:"",
-        zipCode:"",
-        town:""
+        nickName:""
     })
 
 const rules = {
     firstName:{ 
-        required, 
-        minLength:(1)
+        required: helpers.withMessage('required', required),  
+        minLength:helpers.withMessage('minLength', minLength(1))
     },
     lastName:{ 
-        required, 
-        minLength:(1)
+        required: helpers.withMessage('required', required),  
+        minLength:helpers.withMessage('minLength', minLength(1))
     },
     email: { 
-        required, 
-        email 
+        required: helpers.withMessage('required', required),  
+        email: helpers.withMessage('email', email)
+    },
+    nickName: {
+        required: helpers.withMessage('required', required),  
+        minLength:helpers.withMessage('minLength', minLength(1))
     },
     password: { 
-        required, 
-        minLength: minLength(8), 
-        maxLength:maxLength(20),
-        hasUppercase: (value) => /[A-Z]/.test(value),
-        hasLowercase: (value) => /[a-z]/.test(value),
-        hasNumber: (value) => /\d/.test(value),
-        hasSymbol: (value) => /[$@$!%*?&]/.test(value), 
+        required: helpers.withMessage('required', required), 
+        minLength:helpers.withMessage('minLength', minLength(8)), 
+        maxLength:helpers.withMessage('maxLength', maxLength(20)),
+        hasUppercase: helpers.withMessage('hasUppercase', (value) => /[A-Z]/.test(value)),
+        hasLowercase: helpers.withMessage('hasLowercase', (value) => /[a-z]/.test(value)),
+        hasNumber:  helpers.withMessage('hasNumber', (value) =>/\d/.test(value)),
+        hasSymbol: helpers.withMessage('hasSymbol', (value) =>/[$@$!%*?&]/.test(value))
     },
-    //repeatPassword:{
-    //    required,
-    //    sameAsRef: sameAs(createdUser.password)
-    //},
-    address: {
-        required
-    },
-    zipCode: {
-        required
-    },
-    town: {
-        required
-    }
+    /* repeatPassword:{
+        required: helpers.withMessage('required', required),
+        sameAs: helpers.withMessage('repeatPassword', sameAs(() => inputs.value.password))
+    } */
     };
 
-const v$ = useVuelidate(rules, createdUser);
+const v$ = useVuelidate(rules, inputs);
 
-function SignUpUser() {
-    console.log("password - ", createdUser.password)
-    console.log("données: ",createdUser.value);
-        v$.value.$touch();
+const SignUpUser = async () => {
+    v$.value.$touch();
     if (!v$.value.$error) {
-        console.log(createdUser.value);
+        const user = {
+            firstName: inputs.firstName,
+            lastName: inputs.lastName,
+            email: inputs.email,
+            password: inputs.password,
+            nickName: inputs.nickName
+        };
+
+        try {
+            const response = await axios.post('http://localhost:8080/auth/register', user);
+            console.log("Les données sont valides et l'utilisateur a été créé :", response.data);
+        } catch (error) {
+            console.error("Erreur lors de la création de l'utilisateur :", error.response ? error.response.data : error.message);
+        }
+    } else {
+        console.log("Des erreurs de validation sont présentes", v$.value);
+        console.log("Données saisies :", inputs);
     }
 }
+
 
 </script>
 
@@ -74,8 +83,8 @@ function SignUpUser() {
                     <div class="row">
                         <div class="col-12 col-md-6 mb-3">
                             <label for="firstName" class="form-label text-light fw-bolder fs-5">{{ $t('userForm.firstName') }}</label>
-                            <input v-model="createdUser.firstName" type="text" class="form-control py-3" id="firstName" :class="{'is-invalid' : v$.firstName.$error}"/>
-                            <div v-if="v$.firstName.$error">
+                            <input v-model="inputs.firstName" type="text" class="form-control py-3" id="firstName" :class="{'is-invalid' : v$.firstName.$error}"/>
+                            <div v-if="v$.firstName.$errors">
                                 <p v-for="error of v$.firstName.$errors" :key="error.$uid" class="text-danger">
                                     {{ $t(`errorMessages.${error.$message}`) }}
                                 </p>
@@ -83,71 +92,54 @@ function SignUpUser() {
                         </div>
                         <div class="col-12 col-md-6 mb-3">
                             <label for="lastName" class="form-label text-light fw-bolder fs-5">{{ $t('userForm.lastName') }}</label>
-                            <input  v-model="createdUser.lastName" type="text" class="form-control py-3" id="lastName" :class="{'is-invalid' : v$.lastName.$error}"/>
-                            <div v-if="v$.lastName.$error">
+                            <input  v-model="inputs.lastName" type="text" class="form-control py-3" id="lastName" :class="{'is-invalid' : v$.lastName.$error}"/>
+                            <div v-if="v$.lastName.$errors">
                                 <p v-for="error of v$.lastName.$errors" :key="error.$uid" class="text-danger">
                                     {{ $t(`errorMessages.${error.$message}`) }}
                                 </p>
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label text-light fw-bolder fs-5">{{ $t('userForm.email') }}</label>
-                        <input v-model="createdUser.email" type="email" class="form-control py-3" id="email" placeholder="name@example.com" :class="{'is-invalid' : v$.email.$error}">
-                        <div v-if="v$.email.$error">
-                            <p v-for="error of v$.email.$errors" :key="error.$uid" class="text-danger">
-                                {{ error.$message }}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-12 mb-3">
-                        <label for="address" class="form-label text-light fw-bolder fs-5">{{ $t('userForm.address') }}</label>
-                        <input v-model="createdUser.address" type="text" class="form-control py-3" id="address" placeholder="1, rue Saint Sevrin" :class="{'is-invalid' : v$.address.$error}"/>
-                        <div v-if="v$.address.$error">
-                            <p v-for="error of v$.address.$errors" :key="error.$uid" class="text-danger">
-                                {{ error.$message }}
-                            </p>
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col-12 col-md-6 mb-3">
-                            <label for="zipCode" class="form-label text-light fw-bolder fs-5">{{ $t('userForm.zipCode') }}</label>
-                            <input v-model="createdUser.zipCode" type="text" class="form-control py-3" id="zipCode" placeholder="75009" :class="{'is-invalid' : v$.zipCode.$error}"/>
-                            <div v-if="v$.zipCode.$error">
-                                <p v-for="error of v$.zipCode.$errors" :key="error.$uid" class="text-danger">
-                                    {{ error.$message }}
+                            <label for="nickName" class="form-label text-light fw-bolder fs-5">{{ $t('userForm.nickName') }}</label>
+                            <input  v-model="inputs.nickName" type="text" class="form-control py-3" id="nickName" :class="{'is-invalid' : v$.nickName.$error}"/>
+                            <div v-if="v$.nickName.$errors">
+                                <p v-for="error of v$.nickName.$errors" :key="error.$uid" class="text-danger">
+                                    {{ $t(`errorMessages.${error.$message}`) }}
                                 </p>
                             </div>
                         </div>
                         <div class="col-12 col-md-6 mb-3">
-                            <label for="town" class="form-label text-light fw-bolder fs-5">{{ $t('userForm.town') }}</label>
-                            <input v-model="createdUser.town" type="text" class="form-control py-3" id="town" placeholder="Paris" :class="{'is-invalid' : v$.town.$error}"/>
-                            <div v-if="v$.town.$error">
-                                <p v-for="error of v$.town.$errors" :key="error.$uid" class="text-danger">
-                                    {{ error.$message }}
+                            <label for="email" class="form-label text-light fw-bolder fs-5">{{ $t('userForm.email') }}</label>
+                            <input v-model="inputs.email" type="email" class="form-control py-3" id="email" placeholder="name@example.com" :class="{'is-invalid' : v$.email.$error}">
+                            <div v-if="v$.email.$error">
+                                <p v-for="error of v$.email.$errors" :key="error.$uid" class="text-danger">
+                                    {{ $t(`errorMessages.${error.$message}`) }}
                                 </p>
                             </div>
                         </div>
+
                     </div>
                     <div class="row">
                         <div class="col-12 col-md-6 mb-3">
                             <label for="password" class="form-label text-light fw-bolder fs-5">{{ $t('userForm.password') }}</label>
-                            <input v-model="createdUser.password" type="password" class="form-control py-3" id="password" :class="{'is-invalid' : v$.password.$error}"/>
+                            <input v-model="inputs.password" type="password" class="form-control py-3" id="password" :class="{'is-invalid' : v$.password.$error}"/>
                             <div v-if="v$.password.$errors">
                                 <p v-for="error of v$.password.$errors" :key="error.$uid" class="text-danger">
-                                    {{ error.$message }}
+                                    {{ $t(`errorMessages.${error.$message}`) }}
                                 </p>
                             </div>
                         </div>
-                       <!--<div class="col-12 col-md-6 mb-3">
+                      <!--  <div class="col-12 col-md-6 mb-3">
                             <label for="repeatPassword" class="form-label text-light fw-bolder fs-5">Confirmez le mot de passe</label>
-                            <input v-model="createdUser.repeatPassword" type="repeatPassword" class="form-control py-3" id="repeatPassword" :class="{'is-invalid' : v$.repeatPassword.$error}"/>
+                            <input v-model="inputs.repeatPassword" type="repeatPassword" class="form-control py-3" id="repeatPassword" :class="{'is-invalid' : v$.repeatPassword.$error}"/>
                             <div v-if="v$.repeatPassword.$errors">
                                 <p v-for="error of v$.repeatPassword.$errors" :key="error.$uid" class="text-danger">
-                                    {{ error.$message }}
+                                    {{ $t(`errorMessages.${error.$message}`) }}
                                 </p>
                             </div>
-                        </div>-->
+                        </div> -->
                     </div>
                     <div>
                         <button type="submit" class="btn search-button border-0 w-100 py-3 bg-primary text-light fw-bolder">{{ $t('home.register') }}</button>

@@ -1,3 +1,4 @@
+
 package com.teddy_blue;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -15,18 +16,19 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${teddyblue.cors.allowed-methods}")
     private String[] allowedMethods;
     
+    @SuppressWarnings("deprecation")
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
         configurer.setUseTrailingSlashMatch(false);
-
     }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-	registry.addMapping("/**").allowedOrigins(allowedOrigins)
-		.allowedMethods("POST", "GET", "PUT", "PATCH", "DELETE")
-		.allowedOrigins("http://localhost:5173")
-		.allowedHeaders("*")
-                .allowCredentials(true);
+        registry.addMapping("/**")
+                .allowedOrigins(allowedOrigins)  // Utilisez les valeurs définies dans application.properties
+                .allowedMethods(allowedMethods)  // Utilisez les valeurs définies dans application.properties
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .exposedHeaders("Authorization");
     }
 }
