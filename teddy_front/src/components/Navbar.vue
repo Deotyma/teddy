@@ -16,10 +16,10 @@ import { RouterLink } from 'vue-router'
                   <RouterLink class="nav-link active" to="/">Home</RouterLink>
                 </li>
                 <li class="nav-item">
-                  <RouterLink class="nav-link" to="sign-in">Se connecter</RouterLink>
+                  <RouterLink class="nav-link" to="authenticate">Se connecter</RouterLink>
                 </li>
                 <li class="nav-item">
-                  <RouterLink class="nav-link" to="sign-up">S'inscrire</RouterLink>
+                  <RouterLink class="nav-link" to="register">S'inscrire</RouterLink>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link disabled">Disabled</a>

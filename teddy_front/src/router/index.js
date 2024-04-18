@@ -10,13 +10,13 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/sign-in',
-      name: 'signIn',
+      path: '/auth/authenticate',
+      name: 'authenticate',
       component:()=>import ('../views/SignIn.vue')
     },
     {
       path: '/auth/register',
-      name: 'signUp',
+      name: 'register',
       component:()=>import ('../views/SignUp.vue')
     },
     {

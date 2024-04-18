@@ -1,31 +1,47 @@
 <script setup>
     import { RouterLink } from 'vue-router';
-    import { ref } from 'vue';
+    import { ref, reactive } from 'vue';
     import { useVuelidate } from '@vuelidate/core';
-    import { required, minLength, maxLength, email} from '@vuelidate/validators'
+    import { required, minLength, maxLength, email, helpers} from '@vuelidate/validators';
+    import axios from 'axios';
 
 
-const logedUser = ref({
+const inputs = reactive({
   email: "",
   password: ""
 });
 
 const rules = {
-  email: { 
-    required, 
-    email },
-  password: { 
-    required, 
-    minLength: minLength(8), 
-    maxLength: maxLength(20) }
+    email: { 
+        required: helpers.withMessage('required', required),  
+        email: helpers.withMessage('email', email)
+    },
+    password: { 
+        required: helpers.withMessage('required', required), 
+        minLength:helpers.withMessage('minLength', minLength(8)), 
+        maxLength:helpers.withMessage('maxLength', maxLength(20))
+    }
 };
 
-const v$ = useVuelidate(rules, logedUser);
+const v$ = useVuelidate(rules, inputs);
 
-function logInUser() {
+const logInUser = async() => {
     v$.value.$touch();
     if (!v$.value.$error) {
-        console.log(logedUser.value);
+        const user = {
+            email: inputs.email,
+            password: inputs.password,
+        };
+
+        try {
+            const response = await axios.post('http://localhost:8080/auth/authenticate', user);
+            console.log("Les données sont valides et l'utilisateur a été connecté:", response.data);
+        } catch (error) {
+            console.error("Erreur lors de la création de l'utilisateur :", error.response ? error.response.data : error.message);
+        }
+    } else {
+        console.log("Des erreurs de authentication sont présentes", v$.value);
+        console.log("Données saisies :", inputs);
     }
 }
 
@@ -46,20 +62,20 @@ function logInUser() {
                 <form @submit.prevent="logInUser">
                     <div class="mb-3">
                         <label for="email" class="form-label text-light fw-bolder fs-5">Email</label>
-                        <input v-model="logedUser.email" type="email" class="form-control py-3" id="email" placeholder="name@example.com" :class="{'is-invalid' : v$.email.$error}">
+                        <input v-model="inputs.email" type="email" class="form-control py-3" id="email" placeholder="name@example.com" :class="{'is-invalid' : v$.email.$error}">
                         <div v-if="v$.email.$errors">
                             <p v-for="error of v$.email.$errors" :key="error.$uid" class="text-danger">
-                                {{ error.$message }}
+                                {{ $t(`errorMessages.${error.$message}`) }}
                             </p>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="password" class="form-label text-light fw-bolder fs-5">Mot de passe</label>
-                        <input v-model="logedUser.password" type="password" class="form-control py-3" id="password" :class="{'is-invalid' : v$.password.$error}">
+                        <input v-model="inputs.password" type="password" class="form-control py-3" id="password" :class="{'is-invalid' : v$.password.$error}">
                         <div v-if="v$.password.$errors">
                             <p v-for="error of v$.password.$errors" :key="error.$uid" class="text-danger">
-                                {{ error.$message }}
+                                {{ $t(`errorMessages.${error.$message}`) }}
                             </p>
                         </div>
                     </div>
@@ -77,7 +93,7 @@ function logInUser() {
                         <p class="text-center text-light fw-bolder fs-6">Vous découvrez <span class="pacifico">Teddy Blue</span></p>
                         </div>
                     <div class="d-flex justify-content-center">
-                        <RouterLink to="sign-up" class="text-center text-primary fw-bolder fs-6 text-decoration-none">Inscrivez Vous</RouterLink>
+                        <RouterLink to="register" class="text-center text-primary fw-bolder fs-6 text-decoration-none">Inscrivez Vous</RouterLink>
                     </div>
                 </div>
             </div>
