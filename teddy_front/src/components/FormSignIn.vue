@@ -35,10 +35,11 @@
                 email: inputs.email,
                 password: inputs.password,
             };
-        
+
             try {
                 const response = await axios.post('http://localhost:8080/auth/authenticate', user);
                 localStorage.setItem('accessToken', response.data.accessToken);
+                localStorage.setItem('userId', response.data.userId);
                 console.log("Les données sont valides et l'utilisateur a été connecté:", response.data);
                 router.push({ name: 'user', params: { id: response.data.userId } });
             } catch (error) {

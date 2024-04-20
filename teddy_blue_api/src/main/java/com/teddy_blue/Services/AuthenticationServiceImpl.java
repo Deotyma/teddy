@@ -3,6 +3,7 @@ package com.teddy_blue.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -52,20 +53,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	}
 
     @Override
-    public AuthenticationResponse authenticate(AuthenticationRequest request) {
-	    authenticationManager.authenticate(
-		    new UsernamePasswordAuthenticationToken(
-		            request.getEmail(),
-		            request.getPassword()
-			    )       
-		    );
-	    User user = userRepository.findByEmail(request.getEmail())
-		        .orElseThrow();
-	    String jwtToken = jwtService.generateToken(user);
-	    
-	    return AuthenticationResponse.builder()
-		                .accessToken(jwtToken)
-		                .build();
-		        
+public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(
+            request.getEmail(),
+            request.getPassword()
+        )       
+    );
+    User user = userRepository.findByEmail(request.getEmail())
+            .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
+    String jwtToken = jwtService.generateToken(user);
+    
+    return AuthenticationResponse.builder()
+                    .accessToken(jwtToken)
+                    .userId(user.getId())
+                    .build();
+
     }
 }
