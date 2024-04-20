@@ -1,11 +1,9 @@
 <script setup>
-    import { RouterLink } from 'vue-router';
+    import { RouterLink, useRouter  } from 'vue-router';
     import { reactive } from 'vue';
     import { useVuelidate } from '@vuelidate/core';
     import { required, minLength, maxLength, email, helpers} from '@vuelidate/validators';
-    import { useRouter } from 'vue-router';
     import axios from 'axios';
-
 
     const router = useRouter();
 

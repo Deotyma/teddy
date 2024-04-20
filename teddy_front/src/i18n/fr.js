@@ -44,6 +44,7 @@ const messages = {
       lastName:"Nom",
       email:"Email",
       nickName:'Pseudonyme',
+      createAnnonce:'Créer une annonce'
 
     }
 } 

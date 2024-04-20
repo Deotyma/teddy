@@ -43,7 +43,8 @@ const messages = {
       firstName:"First name",
       lastName:"Last name",
       email:"Email",
-      nickName:"Nick name"
+      nickName:"Nick name",
+      createAnnonce:'Create an annonce'
 
     }
 } 
