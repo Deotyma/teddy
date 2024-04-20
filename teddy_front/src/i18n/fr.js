@@ -36,7 +36,16 @@ const messages = {
         zipCode:"Code postal",
         town:"Ville",
         photoInstructions:"Le format de ficher doit avoir unde format suivant: JPEG, PNG ou GIF, et ne pas depasser 1MB."
-      }
+      },
+    user:{
+      hello:'Bienvenue',
+      info: 'Les informations personelles',
+      firstName:"Prènom",
+      lastName:"Nom",
+      email:"Email",
+      nickName:'Pseudonyme',
+
+    }
 } 
 
 export default messages

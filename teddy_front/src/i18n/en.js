@@ -36,7 +36,16 @@ const messages = {
         zipCode:"Zip code",
         town:"Town",
         photoInstructions:"Must be JPEG, PNG or GIF, and not exceed 1MB."
-      }
+      },
+    user:{
+      hello:"Hello",
+      info: 'Personnal information',
+      firstName:"First name",
+      lastName:"Last name",
+      email:"Email",
+      nickName:"Nick name"
+
+    }
 } 
 
 export default messages

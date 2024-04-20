@@ -1,49 +1,54 @@
 <script setup>
     import { RouterLink } from 'vue-router';
-    import { ref, reactive } from 'vue';
+    import { reactive } from 'vue';
     import { useVuelidate } from '@vuelidate/core';
     import { required, minLength, maxLength, email, helpers} from '@vuelidate/validators';
+    import { useRouter } from 'vue-router';
     import axios from 'axios';
 
 
-const inputs = reactive({
-  email: "",
-  password: ""
-});
+    const router = useRouter();
 
-const rules = {
-    email: { 
-        required: helpers.withMessage('required', required),  
-        email: helpers.withMessage('email', email)
-    },
-    password: { 
-        required: helpers.withMessage('required', required), 
-        minLength:helpers.withMessage('minLength', minLength(8)), 
-        maxLength:helpers.withMessage('maxLength', maxLength(20))
-    }
-};
+    const inputs = reactive({
+      email: "",
+      password: ""
+    });
 
-const v$ = useVuelidate(rules, inputs);
-
-const logInUser = async() => {
-    v$.value.$touch();
-    if (!v$.value.$error) {
-        const user = {
-            email: inputs.email,
-            password: inputs.password,
-        };
-
-        try {
-            const response = await axios.post('http://localhost:8080/auth/authenticate', user);
-            console.log("Les données sont valides et l'utilisateur a été connecté:", response.data);
-        } catch (error) {
-            console.error("Erreur lors de la création de l'utilisateur :", error.response ? error.response.data : error.message);
+    const rules = {
+        email: { 
+            required: helpers.withMessage('required', required),  
+            email: helpers.withMessage('email', email)
+        },
+        password: { 
+            required: helpers.withMessage('required', required), 
+            minLength:helpers.withMessage('minLength', minLength(8)), 
+            maxLength:helpers.withMessage('maxLength', maxLength(20))
         }
-    } else {
-        console.log("Des erreurs de authentication sont présentes", v$.value);
-        console.log("Données saisies :", inputs);
+    };
+
+    const v$ = useVuelidate(rules, inputs);
+
+    const logInUser = async() => {
+        v$.value.$touch();
+        if (!v$.value.$error) {
+            const user = {
+                email: inputs.email,
+                password: inputs.password,
+            };
+        
+            try {
+                const response = await axios.post('http://localhost:8080/auth/authenticate', user);
+                localStorage.setItem('accessToken', response.data.accessToken);
+                console.log("Les données sont valides et l'utilisateur a été connecté:", response.data);
+                router.push({ name: 'user', params: { id: response.data.userId } });
+            } catch (error) {
+                console.error("Erreur lors de l'authentication de l'utilisateur :", error.response ? error.response.data : error.message);
+            }
+        } else {
+            console.log("Des erreurs de authentication sont présentes", v$.value);
+            console.log("Données saisies :", inputs);
+        }
     }
-}
 
 </script>
 

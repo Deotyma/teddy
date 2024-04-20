@@ -37,6 +37,7 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(WHITE_LIST_URL).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/users/**").hasAuthority(Role.USER.name())
                         .requestMatchers(HttpMethod.POST, "/annonces/**").hasAuthority(Role.USER.name())
                         .requestMatchers(HttpMethod.PUT, "/annonces/**").hasAuthority(Role.USER.name())
                         .requestMatchers(HttpMethod.DELETE, "/annonces/**").hasAuthority(Role.USER.name())
