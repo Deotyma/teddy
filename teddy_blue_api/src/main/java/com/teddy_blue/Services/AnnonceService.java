@@ -14,4 +14,5 @@ public interface AnnonceService {
     Object getAllAnnonces();
     Optional<AnnonceItem> getAnnonceById(Long id);
     List<AnnonceItem> getAnnoncesByUserId(Long userId);
+    List<AnnonceItem> getLatestThreeAnnonces();
 }

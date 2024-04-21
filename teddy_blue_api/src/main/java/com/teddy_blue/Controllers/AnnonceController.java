@@ -56,6 +56,12 @@ public class AnnonceController {
         List<AnnonceItem> annonces = annonceService.getAnnoncesByUserId(userId);
         return ResponseEntity.ok(annonces);
     }
+    
+    @GetMapping("/lastest")
+    public ResponseEntity<List<AnnonceItem>> getLatestAnnonces() {
+        List<AnnonceItem> latestAnnonces = annonceService.getLatestThreeAnnonces();
+        return ResponseEntity.ok(latestAnnonces);
+    }
 
     @PatchMapping("/update/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

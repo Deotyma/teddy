@@ -3,6 +3,8 @@ package com.teddy_blue.Repositories;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.teddy_blue.Entities.Annonce;
@@ -12,5 +14,8 @@ public interface AnnonceRepository extends JpaRepository<Annonce, Long> {
     Optional<Annonce> findProjectedDetailById(Long id);
 
     List<Annonce> findByUserId(Long userId);
+
+    @Override
+    Page<Annonce> findAll(Pageable pageable);
 
 }

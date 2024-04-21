@@ -5,6 +5,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -180,6 +184,16 @@ public class AnnonceServiceImpl implements AnnonceService {
         return annonces.stream()
                        .map(this::convertToAnnonceItem)
                        .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AnnonceItem> getLatestThreeAnnonces() {
+        Pageable pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "dateAdded"));
+        Page<Annonce> page = annonceRepository.findAll(pageable);
+        return page.getContent()
+                   .stream()
+                   .map(this::convertToAnnonceItem)
+                   .collect(Collectors.toList());
     }
 }
 
