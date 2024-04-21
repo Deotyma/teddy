@@ -43,16 +43,13 @@ function getToken() {
         if (inputs.file) {
             formData.append('photo', inputs.file);
         }
-        console.log("formularz: ",formData)
         const response = await axios.post('http://localhost:8080/annonces', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${token}`
-
             },
         });
         console.log('Annonce created:', response.data);
-        // Gérez le succès ici (redirection, message de succès, etc.)
     } catch (error) {
         console.error('Error creating annonce:', error);
     }
@@ -120,7 +117,7 @@ fetchSharingMethods();
                             <input class="form-control form-control-lg" type="file" accept="image/png,image/gif,image/jpeg" id="photoLink" @change="fileSelected">
                             <div class="form-text text-light">{{ $t('formAnnonce.photoInstructions') }}</div>
                         </div>
-                            <div class="col-6 mb-3">
+                        <div class="col-6 mb-3">
                             <label for="zipCode" class="form-label text-light fw-bolder fs-5">{{ $t('formAnnonce.zipCode') }}</label>
                             <input type="text" class="form-control py-3" id="zipCode" v-model.trim="inputs.zipCode"/>
                         </div>

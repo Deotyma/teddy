@@ -31,7 +31,7 @@ const router = createRouter({
     },
 
     {
-      path: '/users/:id/update/:idAnnonce',
+      path: '/annonce-detail/update/:id',
       name: 'update',
       component:()=>import ('../views/UpdateAnnonce.vue')
     },

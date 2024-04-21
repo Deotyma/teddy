@@ -20,7 +20,7 @@ import com.teddy_blue.Entities.Role;
 @Import(LogoutConfig.class)
 public class SecurityConfiguration {
     
-    private static final String[] WHITE_LIST_URL = {"/annonces","/annonces/lastest", "/auth/register", "/auth/authenticate", "/"};
+    private static final String[] WHITE_LIST_URL = {"/annonces","/annonces/lastest","/annonces/{id}", "/auth/register", "/auth/authenticate", "/"};
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
@@ -41,6 +41,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/annonces/**").hasAuthority(Role.USER.name())
                         .requestMatchers(HttpMethod.GET, "/annonces/by-user/**").hasAuthority(Role.USER.name())
                         .requestMatchers(HttpMethod.PUT, "/annonces/**").hasAuthority(Role.USER.name())
+                        .requestMatchers(HttpMethod.PATCH, "/annonces/**").hasAuthority(Role.USER.name())
                         .requestMatchers(HttpMethod.DELETE, "/annonces/**").hasAuthority(Role.USER.name())
                         .anyRequest().authenticated()
                 )

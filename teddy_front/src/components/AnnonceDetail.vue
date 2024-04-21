@@ -2,21 +2,49 @@
 import { ref, onBeforeMount } from 'vue';
 import axios from 'axios';
 import { useRoute } from 'vue-router';
+import LastestAnnonces from './LastestAnnonces.vue';
 
 const route = useRoute();
 const annonceId = route.params.id;
 const annonce = ref({});
+const lastestAnnonces = ref([]);
+const isAuthenticated = ref(false)
 
 async function initAnnonce() {
     try {
         const response = await axios.get(`http://localhost:8080/annonces/${annonceId}`);
         annonce.value = response.data;
     } catch (error) {
-        console.error('Error fetching sticker details:', error);
+        console.error('Error fetching annonce details:', error);
     }
 }
+
+async function initLastAnnonce() {
+    try {
+        const response = await axios.get(`http://localhost:8080/annonces/lastest`);
+        lastestAnnonces.value = response.data;
+    } catch (error) {
+        console.error('Error fetching last annonces details:', error);
+    }
+}
+
+function getToken() {
+    return localStorage.getItem('accessToken');
+}
+
+async function checkAuthentication() {
+    const token = getToken();
+     if (token){
+        isAuthenticated.value = true
+    } else {
+        isAuthenticated.value = false;
+    }
+}
+
 onBeforeMount(() => {
     initAnnonce();
+    initLastAnnonce();
+    checkAuthentication()
 });
 </script>
 
@@ -31,31 +59,24 @@ onBeforeMount(() => {
                         </div>
                     </div>
                     <div class="col-lg-12 text-center">
-                        <h2 class="name ">{{ annonce.title }} </h2>
+                        <h2 class="name">{{ annonce.title }}</h2>
                         <span class="badge text-bg-primary">{{ annonce.categoryName }}</span>
                         <span class="badge text-bg-primary">{{ annonce.sharingMethodName }}</span>
                         <p class="description">{{ annonce.textAnnonce }}</p>
-                        <a class="btn btn-dark bg-secondary" href ="mailto:${annonce.userEmail}"><i class="fas fa-cart-arrow-down"></i>Contacter l'annonceur</a>
+                        <div v-if="isAuthenticated">
+                            <RouterLink :to="{ name: 'update', params: { id: annonceId }}" class="btn search-button py-3 px-5 me-3 animated fadeIn bg-primary text-light fw-bolder fs-6"></RouterLink>
+                        </div>
+                        <a :href="`mailto:${annonce.userEmail}`" class="btn btn-dark bg-secondary"><i class="fas fa-cart-arrow-down"></i>Contacter l'annonceur</a>
+
                     </div>
                 </div>
                 <div class="col-lg-3 order-lg-first justify-content-center">
-                    <h2 class="text-center m-3">Nos suggestions </h2>
-                        <ul>
-                            <li class="mt-5">
-                                Titre
-                                <a href="#"><img src="../assets/images/bear2.png" alt="savon" class="col-12 suggestions"></a>
-                            </li>
-                            <li class="mt-5">
-                                <a href="#"><img src="../assets/images/bear2.png" alt="savon" class="col-12 suggestions"></a>
-                            </li>
-                            <li class="mt-5">
-                                <a href="#"><img src="../assets/images/bear2.png" alt="savon" class="col-12 suggestions"></a>
-                            </li>
-                        </ul>
+                    <h2 class="m-3">Nos suggestions</h2>
+                    <div class="col-md-6 d-flex justify-content-center" v-for="lastAnnonce in lastestAnnonces" :key="lastAnnonce.id">
+                        <LastestAnnonces :annonceData="lastAnnonce" />
+                    </div>
                 </div>
             </div>
         </div>
     </main>
-
-    
 </template>

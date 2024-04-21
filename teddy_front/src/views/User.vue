@@ -27,7 +27,7 @@ onMounted(async () => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     
     try {
-        const response = await axios.get(`http://localhost:8080/annonces/by-user/${userId}`);  // Utilisation de la syntaxe de template string pour inclure userId
+        const response = await axios.get(`http://localhost:8080/annonces/by-user/${userId}`);
         annonces.value = response.data;
     } catch (error) {
         console.error('Error fetching annonces:', error);
