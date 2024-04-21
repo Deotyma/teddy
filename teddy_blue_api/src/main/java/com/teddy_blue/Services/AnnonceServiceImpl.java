@@ -50,6 +50,7 @@ public class AnnonceServiceImpl implements AnnonceService {
         item.setTitle(annonce.getTitle());
         item.setTextAnnonce(annonce.getTextAnnonce());
         item.setPhotoLink(annonce.getPhotoLink());
+        item.setDateAdded(annonce.getDateAdded()); 
         
         if (annonce.getLocality() != null) {
             item.setLocalityId(annonce.getLocality().getId());
