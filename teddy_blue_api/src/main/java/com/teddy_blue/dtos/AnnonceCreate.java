@@ -23,7 +23,6 @@ public class AnnonceCreate {
     @Size(max = 5000)
     private String textAnnonce;
 
-    @NotNull
     @MimeType({ MediaType.IMAGE_GIF_VALUE, MediaType.IMAGE_JPEG_VALUE,
 	    MediaType.IMAGE_PNG_VALUE })
     @FileSize
@@ -32,8 +31,10 @@ public class AnnonceCreate {
     private LocalDate dateAdded;
     
     @NotNull
-    @Positive
-    private Long localityId; 
+    private String zipCode;
+    
+    @NotNull
+    private String cityCode;
     
     @NotNull
     @Positive
@@ -109,12 +110,20 @@ public class AnnonceCreate {
         this.photoLink = photoLink;
     }
 
-    public Long getLocalityId() {
-        return localityId;
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public void setLocalityId(Long localityId) {
-        this.localityId = localityId;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getCityCode() {
+        return cityCode;
+    }
+
+    public void setCityCode(String cityCode) {
+        this.cityCode = cityCode;
     }
 }
 

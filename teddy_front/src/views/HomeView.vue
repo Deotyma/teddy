@@ -22,7 +22,7 @@ onMounted(async () => {
         <div class="col-md-6 mx-2 d-flex justify-content-center row">
             <h1 class="display-5 mb-4">{{ $t('home.find') }} <span class="pacifico text-primary">{{ $t('home.toy') }}</span> {{ $t('home.for') }} </h1>
             <p class="pb-2">{{  $t('home.description') }}</p>
-            <RouterLink to="sign-up" class="btn search-button py-3 px-5 me-3 animated fadeIn bg-primary text-light fw-bolder fs-6">{{ $t('home.register') }}</RouterLink>
+            <RouterLink to="register" class="btn search-button py-3 px-5 me-3 animated fadeIn bg-primary text-light fw-bolder fs-6">{{ $t('home.register') }}</RouterLink>
         </div>
         <div class="col-md-5">
             <img class="img-fluid d-flex justify-content-end px-0 mx-0" src="../assets/images/bear1.png" alt="two teddy-bears">

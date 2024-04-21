@@ -1,5 +1,6 @@
- package com.teddy_blue.Controllers;
+package com.teddy_blue.Controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,12 @@ public class AnnonceController {
     @GetMapping
     public ResponseEntity<Object> getAllAnnonces() {
         return ResponseEntity.ok(annonceService.getAllAnnonces());
+    }
+    
+    @GetMapping("/by-user/{userId}")
+    public ResponseEntity<List<AnnonceItem>> getAnnoncesByUserId(@PathVariable Long userId) {
+        List<AnnonceItem> annonces = annonceService.getAnnoncesByUserId(userId);
+        return ResponseEntity.ok(annonces);
     }
 
     @PatchMapping("/update/{id}")

@@ -34,7 +34,7 @@ const messages = {
         text: 'Text de l\'annonce',
         photo: 'Photo',
         zipCode:"Code postal",
-        town:"Ville",
+        cityCode:"Ville",
         photoInstructions:"Le format de ficher doit avoir unde format suivant: JPEG, PNG ou GIF, et ne pas depasser 1MB."
       },
     user:{

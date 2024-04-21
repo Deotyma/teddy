@@ -8,38 +8,53 @@ const sharingMethods = ref([]);
 const inputs = reactive({
     title: '', // Add title
     textAnnonce: '', // Add textAnnonce
+    zipCode:'',
+    cityCode:'',
     categoriesId: { id: null },
     sharingMethodsId: { id: null },
     file: null
 });
 
-const userId = window.location.pathname.split('/')[2];
+const userId = localStorage.getItem('userId')
 
-const createAnnonce = async () => {
+function getToken() {
+        console.log(localStorage.getItem('accessToken')); 
+        return localStorage.getItem('accessToken');
+    }
+
+    const createAnnonce = async () => {
+    const token = getToken(); 
+    console.log("token de createAnnonce: ", token) 
+    if (!token) {
+        console.error('No token found');
+        return;
+    }
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     try {
         const formData = new FormData();
         formData.append('title', inputs.title);
         formData.append('textAnnonce', inputs.textAnnonce);
+        formData.append('zipCode', inputs.zipCode);  // Assurez-vous que cette ligne est correcte
+        formData.append('cityCode', inputs.cityCode);  // Assurez-vous que cette ligne est correcte
         formData.append('categoryId', inputs.categoriesId.id);
         formData.append('sharingMethodId', inputs.sharingMethodsId.id);
         formData.append('userId', userId);
         formData.append('photoLink', inputs.file);
-
         if (inputs.file) {
             formData.append('photo', inputs.file);
         }
-
+        console.log("formularz: ",formData)
         const response = await axios.post('http://localhost:8080/annonces', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`
+
             },
         });
-
         console.log('Annonce created:', response.data);
-        // Handle success (e.g., redirecting, showing a success message, etc.)
+        // Gérez le succès ici (redirection, message de succès, etc.)
     } catch (error) {
         console.error('Error creating annonce:', error);
-        
     }
 };
 
@@ -49,6 +64,12 @@ const fileSelected = (event) => {
 
 // Fetch categories and sharing methods
 const fetchCategories = async () => {
+    const token = getToken();  
+        if (!token) {
+            console.error('No token found');
+            return;
+        }
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     try {
         const response = await axios.get('http://localhost:8080/categories');
         categories.value = response.data;
@@ -58,6 +79,12 @@ const fetchCategories = async () => {
 };
 
 const fetchSharingMethods = async () => {
+    const token = getToken();  
+        if (!token) {
+            console.error('No token found');
+            return;
+        }
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     try {
         const response = await axios.get('http://localhost:8080/sharingMethods');
         sharingMethods.value = response.data;
@@ -92,6 +119,14 @@ fetchSharingMethods();
                             <label for="photoLink" class="form-label text-light fw-bolder fs-5">{{ $t('formAnnonce.photo') }}</label>
                             <input class="form-control form-control-lg" type="file" accept="image/png,image/gif,image/jpeg" id="photoLink" @change="fileSelected">
                             <div class="form-text text-light">{{ $t('formAnnonce.photoInstructions') }}</div>
+                        </div>
+                            <div class="col-6 mb-3">
+                            <label for="zipCode" class="form-label text-light fw-bolder fs-5">{{ $t('formAnnonce.zipCode') }}</label>
+                            <input type="text" class="form-control py-3" id="zipCode" v-model.trim="inputs.zipCode"/>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label for="cityCode" class="form-label text-light fw-bolder fs-5">{{ $t('formAnnonce.cityCode') }}</label>
+                            <input type="text" class="form-control py-3" id="cityCode" v-model.trim="inputs.cityCode"/>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="cathegories" class="form-label text-light fw-bolder fs-5">Categorie</label>

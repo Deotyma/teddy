@@ -16,7 +16,6 @@ import com.teddy_blue.Entities.SharingMethod;
 import com.teddy_blue.Entities.User;
 import com.teddy_blue.Repositories.AnnonceRepository;
 import com.teddy_blue.Repositories.CategoryRepository;
-import com.teddy_blue.Repositories.LocalityRepository;
 import com.teddy_blue.Repositories.SharingMethodRepository;
 import com.teddy_blue.Repositories.UserRepository;
 import com.teddy_blue.dtos.AnnonceCreate;
@@ -30,15 +29,15 @@ import jakarta.persistence.EntityNotFoundException;
 public class AnnonceServiceImpl implements AnnonceService {
 
     private final AnnonceRepository annonceRepository;
-    private final LocalityRepository localityRepository;
+    private final LocalityService localityService;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final SharingMethodRepository sharingMethodRepository;
     private final FileStorage fileStorage;
 
-    public AnnonceServiceImpl(FileStorage fileStorage, AnnonceRepository annonceRepository,LocalityRepository localityRepository, UserRepository userRepository, CategoryRepository categoryRepository, SharingMethodRepository sharingMethodRepository) {
+    public AnnonceServiceImpl(FileStorage fileStorage, AnnonceRepository annonceRepository,LocalityService localityService, UserRepository userRepository, CategoryRepository categoryRepository, SharingMethodRepository sharingMethodRepository) {
         this.annonceRepository = annonceRepository;
-        this.localityRepository = localityRepository;
+        this.localityService = localityService;
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
         this.sharingMethodRepository = sharingMethodRepository;
@@ -74,7 +73,7 @@ public class AnnonceServiceImpl implements AnnonceService {
 
     @Override
     public void createAnnonce(AnnonceCreate inputs) {
-        Annonce entity = new Annonce();
+	Annonce entity = new Annonce();
         entity.setTitle(inputs.getTitle());
         entity.setTextAnnonce(inputs.getTextAnnonce());
         MultipartFile file = inputs.getPhotoLink();
@@ -83,9 +82,9 @@ public class AnnonceServiceImpl implements AnnonceService {
         entity.setPhotoLink(fileName);
         
         // Set Locality
-        Locality locality = localityRepository.findById(inputs.getLocalityId())
-            .orElseThrow(() -> new EntityNotFoundException("Locality not found"));
-        entity.setLocality(locality);
+        Locality locality = localityService.findByZipCodeAndCityCode(inputs.getZipCode(), inputs.getCityCode().toLowerCase())
+                .orElseThrow(() -> new EntityNotFoundException("Localité introuvable pour les codes fournis."));
+            entity.setLocality(locality);
 
         // Set User
         User user = userRepository.findById(inputs.getUserId())
@@ -133,9 +132,9 @@ public class AnnonceServiceImpl implements AnnonceService {
                 entity.setPhotoLink(newFullName);
             }
 	 // Set Locality
-	 Locality locality = localityRepository.findById(inputs.getLocalityId())
-		 .orElseThrow(() -> new EntityNotFoundException("Locality not found"));
-	 entity.setLocality(locality);
+	    Locality locality = localityService.findByZipCodeAndCityCode(inputs.getZipCode(), inputs.getCityCode())
+		        .orElseThrow(() -> new EntityNotFoundException("Localité introuvable pour les codes fournis."));
+		    entity.setLocality(locality);
 
 	        // Set User
 	        User user = userRepository.findById(inputs.getUserId())
@@ -172,6 +171,14 @@ public class AnnonceServiceImpl implements AnnonceService {
         else {
             throw new EntityNotFoundException("Annonce with ID " + id + " not found");
         }
+    }
+
+    @Override
+    public List<AnnonceItem> getAnnoncesByUserId(Long userId) {
+        List<Annonce> annonces = annonceRepository.findByUserId(userId);
+        return annonces.stream()
+                       .map(this::convertToAnnonceItem)
+                       .collect(Collectors.toList());
     }
 }
 

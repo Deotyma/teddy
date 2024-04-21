@@ -1,5 +1,6 @@
 package com.teddy_blue.Services;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.teddy_blue.dtos.AnnonceCreate;
@@ -12,4 +13,5 @@ public interface AnnonceService {
     void createAnnonce(AnnonceCreate inputs);
     Object getAllAnnonces();
     Optional<AnnonceItem> getAnnonceById(Long id);
+    List<AnnonceItem> getAnnoncesByUserId(Long userId);
 }

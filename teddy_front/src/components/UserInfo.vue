@@ -8,22 +8,21 @@
     const user = ref({});
 
     function getToken() {
-        // Assurez-vous que le nom utilisé ici correspond à celui utilisé lors du stockage du token
-        console.log(localStorage.getItem('accessToken')); // Correction de la faute de frappe
-        return localStorage.getItem('accessToken'); // Correction de la faute de frappe
+        console.log(localStorage.getItem('accessToken')); 
+        return localStorage.getItem('accessToken');
     }
 
     async function initUser() {
-        const token = getToken();  // Utiliser 'token' qui est la valeur récupérée
-        if (!token) {  // Correction: utiliser 'token' au lieu de 'accessToken'
+        const token = getToken();  
+        if (!token) {
             console.error('No token found');
             return;
         }
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`; // Utiliser 'token'
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
         try {
             const response = await axios.get(`http://localhost:8080/users/${userId}`);
-            user.value = response.data;  // Assurez-vous d'assigner les données au bon référant
+            user.value = response.data;
         } catch (error) {
             console.error('Error fetching user details:', error);
         }

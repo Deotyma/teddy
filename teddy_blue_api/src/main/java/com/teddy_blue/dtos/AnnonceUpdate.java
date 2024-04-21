@@ -28,9 +28,12 @@ public class AnnonceUpdate {
         @FileSize
         private MultipartFile photoLink;
 
-        @Nullable
-        @Positive
-        private Long localityId;
+        @NotNull
+        private String zipCode;
+        
+        @NotNull
+        private String cityCode;
+       
         
         @NotNull
         @Positive
@@ -103,12 +106,20 @@ public class AnnonceUpdate {
 	    this.id = id;
 	}
 
-	public Long getLocalityId() {
-	    return localityId;
+	public String getZipCode() {
+	    return zipCode;
 	}
 
-	public void setLocalityId(Long localityId) {
-	    this.localityId = localityId;
+	public void setZipCode(String zipCode) {
+	    this.zipCode = zipCode;
+	}
+
+	public String getCityCode() {
+	    return cityCode;
+	}
+
+	public void setCityCode(String cityCode) {
+	    this.cityCode = cityCode;
 	}
 
 }
