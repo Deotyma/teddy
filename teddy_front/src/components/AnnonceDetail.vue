@@ -1,14 +1,16 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue';
 import axios from 'axios';
-import { useRoute } from 'vue-router';
+import { RouterLink, useRouter, useRoute} from 'vue-router';
 import LastestAnnonces from './LastestAnnonces.vue';
 
 const route = useRoute();
+const router = useRouter();
 const annonceId = route.params.id;
 const annonce = ref({});
 const lastestAnnonces = ref([]);
 const isAuthenticated = ref(false)
+const userId = localStorage.getItem('userId');
 
 async function initAnnonce() {
     try {
@@ -41,6 +43,24 @@ async function checkAuthentication() {
     }
 }
 
+async function deleteAnnonce() {
+    const token = getToken();
+    if (!token) {
+        console.error('No token found');
+        return;
+    }
+    try {
+        await axios.delete(`http://localhost:8080/annonces/delete/${annonceId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        router.push({ name: 'user', params: { id:userId } });
+    } catch (error) {
+        console.error('Error deleting annonce:', error.response ? error.response.data : error);
+    }
+}
+
 onBeforeMount(() => {
     initAnnonce();
     initLastAnnonce();
@@ -64,7 +84,8 @@ onBeforeMount(() => {
                         <span class="badge text-bg-primary">{{ annonce.sharingMethodName }}</span>
                         <p class="description">{{ annonce.textAnnonce }}</p>
                         <div v-if="isAuthenticated">
-                            <RouterLink :to="{ name: 'update', params: { id: annonceId }}" class="btn search-button py-3 px-5 me-3 animated fadeIn bg-primary text-light fw-bolder fs-6"></RouterLink>
+                            <RouterLink :to="{ name: 'update', params: { id: annonceId }}" class="btn search-button py-3 px-5 me-3 animated fadeIn bg-warning text-light fw-bolder fs-6">Update</RouterLink>
+                            <button @click="deleteAnnonce" type="button" class="btn search-button py-3 px-5 me-3 animated fadeIn bg-danger text-light fw-bolder fs-6">Delete</button>
                         </div>
                         <a :href="`mailto:${annonce.userEmail}`" class="btn btn-dark bg-secondary"><i class="fas fa-cart-arrow-down"></i>Contacter l'annonceur</a>
 

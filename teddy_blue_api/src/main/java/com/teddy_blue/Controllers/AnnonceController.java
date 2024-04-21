@@ -70,7 +70,7 @@ public class AnnonceController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteAnnonce(@PathVariable Long id) {
         annonceService.deleteAnnonce(id);
         return ResponseEntity.ok().build();

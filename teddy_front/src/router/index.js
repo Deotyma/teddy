@@ -25,7 +25,7 @@ const router = createRouter({
       component:()=>import ('../views/User.vue')
     },
     {
-      path: '/users/create',
+      path: '/create',
       name: 'create',
       component:()=>import ('../views/CreateAnnonce.vue')
     },
