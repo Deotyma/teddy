@@ -10,6 +10,11 @@ const router = createRouter({
       component: HomeView
     },
     {
+      path: '/annonces-map',
+      name: 'annonces-map',
+      component:()=>import ('../views/AllAnnoncesMap.vue')
+    },
+    {
       path: '/authenticate',
       name: 'authenticate',
       component:()=>import ('../views/SignIn.vue')

@@ -20,7 +20,7 @@ import com.teddy_blue.Entities.Role;
 @Import(LogoutConfig.class)
 public class SecurityConfiguration {
     
-    private static final String[] WHITE_LIST_URL = {"/annonces","/annonces/lastest","/annonces/{id}", "/auth/register", "/auth/authenticate", "/"};
+    private static final String[] WHITE_LIST_URL = {"/annonces","/annonces/lastest","/annonces/{id}", "/auth/register", "/auth/authenticate","/localities/**", "/"};
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;

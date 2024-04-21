@@ -6,7 +6,7 @@ import { RouterLink } from 'vue-router'
 <div class="wrapper">
         <nav class="navbar navbar-dark navbar-expand-lg bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"> <img src="../assets/favicon-32x32.png"> <span class="pacifico">Teddy Blue</span></a>
+            <RouterLink class="nav-link" to="/"> <img src="../assets/favicon-32x32.png"> <span class="pacifico">Teddy Blue</span></RouterLink>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -22,7 +22,7 @@ import { RouterLink } from 'vue-router'
                   <RouterLink class="nav-link" to="register">S'inscrire</RouterLink>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link disabled">Disabled</a>
+                  <RouterLink class="nav-link" to="annonces-map">Annonces</RouterLink>
                 </li>
               </ul>
             </div>
