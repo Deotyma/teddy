@@ -1,10 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios';  // Assurez-vous que axios est importé
+import axios from 'axios';
 import "leaflet/dist/leaflet.css";
 import * as L from 'leaflet';
-import { MarkerClusterGroup } from 'leaflet.markercluster';
 import favicon from '../assets/favicon-32x32.png';
+
+function navigateToAnnonce(id) {
+    router.push({ name: 'annonceDetail', params: { id: id } });
+}
 
 const initialMap = ref(null);
 
@@ -15,7 +18,6 @@ const myIcon = L.icon({
     popupAnchor: [-3, -76]
 });
 
-// Fonction asynchrone pour récupérer et afficher les données des annonces
 const fetchAnnonceData = async () => {
     try {
         const annoncesResponse = await axios.get('http://localhost:8080/annonces');
@@ -26,10 +28,17 @@ const fetchAnnonceData = async () => {
                 const localityResponse = await axios.get(`http://localhost:8080/localities/${annonce.localityId}`);
                 const locality = localityResponse.data;
 
+                const popupContent = `
+            <div>
+                <h4>${annonce.title}</h4>
+                <a href="#" onclick="navigateToAnnonce(${annonce.id})">Voir les détails</a>
+            </div>
+        `;
+
                 const marker = L.marker([locality.latitude, locality.longitude], { icon: myIcon })
-                    .bindPopup(annonce.title);
+                    .bindPopup(popupContent);
                 
-                initialMap.value.addLayer(marker);  // Ajoutez directement chaque marqueur à la carte
+                initialMap.value.addLayer(marker);
             }
         });
     } catch (error) {
@@ -44,20 +53,20 @@ onMounted(() => {
         zoomAnimation: false,
         fadeAnimation: true,
         markerZoomAnimation: true
-    }).setView([48.8566, 2.3522], 9);  // Coordonnées centrées sur la France
+    }).setView([48.8566, 2.3522], 9);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(initialMap.value);
 
-    fetchAnnonceData();  // Appel de la fonction pour charger les données après l'initialisation de la carte
+    fetchAnnonceData();
 });
 </script>
 
 <template>
     <div>
         <h3>Les Annonces</h3>
-        <div id="map" style="height: 90vh;"></div>
+        <div id="map" style="height: 80vh;"></div>
     </div>
 </template>

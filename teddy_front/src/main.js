@@ -6,6 +6,10 @@ import axios from './plugins/axios';
 
 const app = createApp(App)
 
+window.navigateToAnnonce = id => {
+    router.push({ name: 'annonceDetail', params: { id } });
+};
+
 app.use(router)
 app.use(axios);
 app.use(i18n)
