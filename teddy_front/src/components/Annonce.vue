@@ -15,8 +15,8 @@ const props = defineProps({
             <h5 class="card-title">{{ annonceData.title }}</h5>
             <p class="card-text">{{ annonceData.textAnnonce}}</p>
             <RouterLink :to="{ name: 'annonceDetail', params: { id: annonceData.id } }" class="btn search-button py-3 px-5 me-3 animated fadeIn bg-primary text-light fw-bolder fs-6">
- {{ $t('annonce.see') }}
-</RouterLink>
+              {{ $t('annonce.see') }}
+            </RouterLink>
           </div>
         </div>
       </div>
