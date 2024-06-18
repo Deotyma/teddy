@@ -14,7 +14,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "users")
+@Table(name = "t_users")
 public class User extends AbstractEntity implements UserDetails {
 
     public User() {

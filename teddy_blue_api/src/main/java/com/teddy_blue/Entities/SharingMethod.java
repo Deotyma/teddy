@@ -5,10 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "sharing_methods")
+@Table(name = "t_sharing_methods")
 public class SharingMethod extends AbstractEntity{
 
-    @Column(name = "sharing_method_name", updatable = false)
+    @Column(name = "sharing_method", updatable = false)
     private String sharingMethodName;
 
     // Getters and setters

@@ -23,5 +23,15 @@
     "name": "teddyblue.cors.allowed-methods",
     "type": "java.lang.String",
     "description": "A description for 'teddyblue.cors.allowed-methods'"
+  },
+  {
+    "name": "teddy_blue.security.jwt.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'teddy_blue.security.jwt.secret'"
+  },
+  {
+    "name": "teddy_blue.security.jwt.expiration",
+    "type": "java.lang.String",
+    "description": "A description for 'teddy_blue.security.jwt.expiration'"
   }
 ]}

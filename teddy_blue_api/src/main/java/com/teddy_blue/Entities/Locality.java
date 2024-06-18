@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "localities")
+@Table(name = "t_localities")
 public class Locality extends AbstractEntity {
 
     public Locality() {

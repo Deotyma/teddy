@@ -5,10 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "t_categories")
 public class Category extends AbstractEntity {
     
-    @Column(name = "category_name", updatable = false)
+    @Column(name = "category", updatable = false)
     private String categoryName;
     
     public Category() {

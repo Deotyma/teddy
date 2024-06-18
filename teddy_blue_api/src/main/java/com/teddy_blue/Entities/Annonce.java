@@ -12,7 +12,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "annonces")
+@Table(name = "t_annonces")
 public class Annonce  extends AbstractEntity {
     
     public Annonce() {
