@@ -1,34 +1,26 @@
 -- Clean up existing data
-DELETE FROM favorites;
-DELETE FROM annonces;
-DELETE FROM users;
-DELETE FROM sharing_methods;
-DELETE FROM categories;
-DELETE FROM localities;
+DELETE FROM t_annonces;
+DELETE FROM t_users;
+DELETE FROM t_sharing_methods;
+DELETE FROM t_categories;
+DELETE FROM t_localities;
 
--- Define the stored procedure
-CREATE OR REPLACE PROCEDURE copy_unique_records()
-LANGUAGE plpgsql
-AS $procedure$
-BEGIN
-    WITH unique_cities AS (
-        SELECT DISTINCT ON (zip_code, city_code, latitude, longitude) zip_code, city_code, latitude, longitude
-        FROM cities
-        ORDER BY zip_code, city_code, latitude, longitude
-    )
-    INSERT INTO localities(zip_code, city_code, latitude, longitude)
-    SELECT zip_code, city_code, latitude, longitude
-    FROM unique_cities
-    ON CONFLICT (zip_code, city_code, latitude, longitude) 
-    DO NOTHING;
-END;
-$procedure$;
-
--- Call the stored procedure to populate localities
-CALL copy_unique_records();
+--Insert localities
+INSERT INTO t_localities(zip_code, city_code,longitude, latitude)
+VALUES
+('75001', 'paris','2.336419316', '48.862549876'),
+('94000', 'creteil','2.454728618', '48.783768446'),
+('69001', 'lyon','4.828518526', '45.770061445'),
+('13001', 'marseille','5.382708717', '43.299974296'),
+('06150', 'cannes','7.004779118', '43.552044875'),
+('84000', 'avignon','4.841098248', '43.935441391'),
+('45000', 'orleans','1.917316017', '47.873503729'),
+('54000', 'nancy','6.175258299', '48.690068976'),
+('94400', 'vitry sur seine','2.394516098', '48.788118568'),
+('94140', 'alfortville','2.421407444', '48.796134091');
 
 -- Insert categories
-INSERT INTO categories(category_name) 
+INSERT INTO t_categories(category) 
 VALUES 
 ('book'),
 ('toy'),
@@ -36,7 +28,7 @@ VALUES
 ('sport material');
 
 -- Insert sharing methods
-INSERT INTO sharing_methods(sharing_method_name) 
+INSERT INTO t_sharing_methods(sharing_method) 
 VALUES 
 ('looking for'),
 ('exchange'),
@@ -44,23 +36,17 @@ VALUES
 ('sell');
 
 -- Insert users
-INSERT INTO users(email, first_name, last_name, nick_name, password)
+INSERT INTO t_users(email, first_name, last_name, nick_name, password)
 VALUES 
 ('user1@example.com', 'Alice', 'Smith', 'AliceS', 'password1'),
 ('user2@example.com', 'Bob', 'Johnson', 'BobJ', 'password2'),
 ('user3@example.com', 'Charlie', 'Davis', 'CharlieD', 'password3');
 
 -- Insert annonces
-INSERT INTO annonces(title, text_annonce, photo_link, user_id, sharing_method_id, category_id, locality_id, date_added) 
+INSERT INTO t_annonces(title, text_annonce, photo_link, user_id, sharing_method_id, category_id, locality_id, date_added) 
 VALUES 
-('Educational Items', 'Educational items for children with autism', 'link1.jpg', (SELECT id FROM users WHERE nick_name = 'AliceS'), (SELECT id FROM sharing_methods WHERE sharing_method_name = 'give'), (SELECT id FROM categories WHERE category_name = 'educational material'), (SELECT id FROM localities WHERE zip_code = '75009' AND city_code = 'paris 09'), '2023-08-20'),
-('Toys for children with autism', 'Toys suitable for Toys for children with autism', 'link2.jpg', (SELECT id FROM users WHERE nick_name = 'BobJ'), (SELECT id FROM sharing_methods WHERE sharing_method_name = 'exchange'), (SELECT id FROM categories WHERE category_name = 'toy'), (SELECT id FROM localities WHERE zip_code = '94000' AND city_code = 'creteil'), '2023-08-20'),
-('Sports Equipment', 'Sports equipment for special needs children', 'link3.jpg', (SELECT id FROM users WHERE nick_name = 'CharlieD'), (SELECT id FROM sharing_methods WHERE sharing_method_name = 'looking for'), (SELECT id FROM categories WHERE category_name = 'sport material'), (SELECT id FROM localities WHERE zip_code = '69001' AND city_code = 'lyon 01'), '2023-08-20');
+('Educational Items', 'Educational items for children with autism', 'link1.jpg', (SELECT id FROM t_users WHERE nick_name = 'AliceS'), (SELECT id FROM t_sharing_methods WHERE sharing_method = 'give'), (SELECT id FROM t_categories WHERE category = 'educational material'), (SELECT id FROM t_localities WHERE zip_code = '75001' AND city_code = 'paris'), '2023-08-20'),
+('Toys for children with autism', 'Toys suitable for Toys for children with autism', 'link2.jpg', (SELECT id FROM t_users WHERE nick_name = 'BobJ'), (SELECT id FROM t_sharing_methods WHERE sharing_method = 'exchange'), (SELECT id FROM t_categories WHERE category = 'toy'), (SELECT id FROM t_localities WHERE zip_code = '94000' AND city_code = 'creteil'), '2023-08-20'),
+('Sports Equipment', 'Sports equipment for special needs children', 'link3.jpg', (SELECT id FROM t_users WHERE nick_name = 'CharlieD'), (SELECT id FROM t_sharing_methods WHERE sharing_method = 'looking for'), (SELECT id FROM t_categories WHERE category = 'sport material'), (SELECT id FROM t_localities WHERE zip_code = '69001' AND city_code = 'lyon'), '2023-08-20');
 
--- Insert favorites
-INSERT INTO favorites(user_id, annonce_id) 
-VALUES 
-((SELECT id FROM users WHERE nick_name = 'AliceS'), (SELECT id FROM annonces WHERE title = 'Sports Equipment')),
-((SELECT id FROM users WHERE nick_name = 'BobJ'), (SELECT id FROM annonces WHERE title = 'Educational Items')),
-((SELECT id FROM users WHERE nick_name = 'CharlieD'), (SELECT id FROM annonces WHERE title = 'Toys for children with autism'));
 
