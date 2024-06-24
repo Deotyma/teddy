@@ -34,8 +34,8 @@ function getToken() {
         const formData = new FormData();
         formData.append('title', inputs.title);
         formData.append('textAnnonce', inputs.textAnnonce);
-        formData.append('zipCode', inputs.zipCode);  // Assurez-vous que cette ligne est correcte
-        formData.append('cityCode', inputs.cityCode);  // Assurez-vous que cette ligne est correcte
+        formData.append('zipCode', inputs.zipCode);  
+        formData.append('cityCode', inputs.cityCode);
         formData.append('categoryId', inputs.categoriesId.id);
         formData.append('sharingMethodId', inputs.sharingMethodsId.id);
         formData.append('userId', userId);
@@ -43,7 +43,7 @@ function getToken() {
         if (inputs.file) {
             formData.append('photo', inputs.file);
         }
-        const response = await axios.post('http://localhost:8080/annonces', formData, {
+        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/annonces`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${token}`
@@ -68,7 +68,7 @@ const fetchCategories = async () => {
         }
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     try {
-        const response = await axios.get('http://localhost:8080/categories');
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/categories`);
         categories.value = response.data;
     } catch (error) {
         console.error("Error fetching categories:", error);
@@ -83,7 +83,7 @@ const fetchSharingMethods = async () => {
         }
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     try {
-        const response = await axios.get('http://localhost:8080/sharingMethods');
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/sharingMethods`);
         sharingMethods.value = response.data;
     } catch (error) {
         console.error("Error fetching sharing methods:", error);

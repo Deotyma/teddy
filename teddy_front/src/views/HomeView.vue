@@ -8,7 +8,7 @@ const annonces = ref([]);
 
 onMounted(async () => {
   try {
-    const response = await axios.get('http://localhost:8080/annonces');
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/annonces`);
     annonces.value = response.data;
   } catch (error) {
     console.error('Error fetching annonces:', error);

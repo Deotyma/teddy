@@ -14,7 +14,7 @@ const userId = localStorage.getItem('userId');
 
 async function initAnnonce() {
     try {
-        const response = await axios.get(`http://localhost:8080/annonces/${annonceId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/annonces/${annonceId}`);
         annonce.value = response.data;
     } catch (error) {
         console.error('Error fetching annonce details:', error);
@@ -23,7 +23,7 @@ async function initAnnonce() {
 
 async function initLastAnnonce() {
     try {
-        const response = await axios.get(`http://localhost:8080/annonces/lastest`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/annonces/lastest`);
         lastestAnnonces.value = response.data;
     } catch (error) {
         console.error('Error fetching last annonces details:', error);
@@ -50,7 +50,7 @@ async function deleteAnnonce() {
         return;
     }
     try {
-        await axios.delete(`http://localhost:8080/annonces/delete/${annonceId}`, {
+        await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/annonces/delete/${annonceId}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

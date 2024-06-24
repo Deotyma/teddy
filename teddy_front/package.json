@@ -13,6 +13,7 @@
     "@vuelidate/core": "^2.0.2",
     "@vuelidate/validators": "^2.0.2",
     "axios": "^1.6.2",
+    "dotenv": "^16.4.5",
     "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3",
     "vue": "^3.2.47",

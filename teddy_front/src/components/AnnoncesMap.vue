@@ -20,12 +20,12 @@ const myIcon = L.icon({
 
 const fetchAnnonceData = async () => {
     try {
-        const annoncesResponse = await axios.get('http://localhost:8080/annonces');
+        const annoncesResponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/annonces`);
         const annonces = annoncesResponse.data;
 
         annonces.forEach(async annonce => {
             if (annonce.localityId) {
-                const localityResponse = await axios.get(`http://localhost:8080/localities/${annonce.localityId}`);
+                const localityResponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/localities/${annonce.localityId}`);
                 const locality = localityResponse.data;
 
                 const popupContent = `

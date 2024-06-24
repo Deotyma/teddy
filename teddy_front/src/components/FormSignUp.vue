@@ -58,7 +58,7 @@ const SignUpUser = async () => {
         };
 
         try {
-            const response = await axios.post('http://localhost:8080/auth/register', user);
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/register`, user);
             console.log("Les données sont valides et l'utilisateur a été créé :", response.data);
         } catch (error) {
             console.error("Erreur lors de la création de l'utilisateur :", error.response ? error.response.data : error.message);

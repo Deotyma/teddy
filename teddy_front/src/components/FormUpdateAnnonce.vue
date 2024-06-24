@@ -32,7 +32,7 @@ const userId = localStorage.getItem('userId');
 // API calls for fetching data
 const fetchAnnonceData = async () => {
     try {
-        const annonceResponse = await axios.get(`http://localhost:8080/annonces/${annonceId}`);
+        const annonceResponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/annonces/${annonceId}`);
         const annonceData = annonceResponse.data;
         inputs.title = annonceData.title;
         inputs.textAnnonce = annonceData.textAnnonce;
@@ -41,7 +41,7 @@ const fetchAnnonceData = async () => {
         //inputs.file = data.photoLink;
 
         if (annonceData.localityId) {
-            const localityResponse = await axios.get(`http://localhost:8080/localities/${annonceData.localityId}`);
+            const localityResponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/localities/${annonceData.localityId}`);
             const localityData = localityResponse.data;
             inputs.zipCode = localityData.zipCode;
             inputs.cityCode = localityData.cityCode;
@@ -66,7 +66,7 @@ const updateAnnonce = async () => {
             formData.append('photo', inputs.file);
         }
 
-        const response = await axios.patch(`http://localhost:8080/annonces/update/${annonceId}`, formData,{
+        const response = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/annonces/update/${annonceId}`, formData,{
             headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${token}`
@@ -82,8 +82,8 @@ const updateAnnonce = async () => {
 const fetchCategoriesAndMethods = async () => {
     try {
         const [catResponse, methodResponse] = await Promise.all([
-            axios.get('http://localhost:8080/categories'),
-            axios.get('http://localhost:8080/sharingMethods')
+            axios.get(`${import.meta.env.VITE_API_BASE_URL}/categories`),
+            axios.get(`${import.meta.env.VITE_API_BASE_URL}/sharingMethods`)
         ]);
         categories.value = catResponse.data;
         sharingMethods.value = methodResponse.data;

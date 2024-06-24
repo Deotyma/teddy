@@ -27,7 +27,7 @@ onMounted(async () => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     
     try {
-        const response = await axios.get(`http://localhost:8080/annonces/by-user/${userId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/annonces/by-user/${userId}`);
         annonces.value = response.data;
     } catch (error) {
         console.error('Error fetching annonces:', error);
