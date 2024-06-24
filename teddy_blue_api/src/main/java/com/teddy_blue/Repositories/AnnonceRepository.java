@@ -15,6 +15,7 @@ public interface AnnonceRepository extends JpaRepository<Annonce, Long> {
 
     List<Annonce> findByUserId(Long userId);
 
+    @SuppressWarnings("null")
     @Override
     Page<Annonce> findAll(Pageable pageable);
 

@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @SuppressWarnings("null")
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);

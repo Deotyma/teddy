@@ -16,17 +16,18 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${teddyblue.cors.allowed-methods}")
     private String[] allowedMethods;
     
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "null" })
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
         configurer.setUseTrailingSlashMatch(false);
     }
 
+    @SuppressWarnings("null")
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins(allowedOrigins)  // Utilisez les valeurs définies dans application.properties
-                .allowedMethods(allowedMethods)  // Utilisez les valeurs définies dans application.properties
+                .allowedOrigins(allowedOrigins)  
+                .allowedMethods(allowedMethods) 
                 .allowedHeaders("*")
                 .allowCredentials(true)
                 .exposedHeaders("Authorization");

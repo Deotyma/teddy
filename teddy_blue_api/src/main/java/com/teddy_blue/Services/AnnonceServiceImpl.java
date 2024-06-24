@@ -102,6 +102,7 @@ public class AnnonceServiceImpl implements AnnonceService {
         entity.setSharingMethod(sharingMethod);
 
         // Set Category
+        @SuppressWarnings("null")
         Category category = categoryRepository.findById(inputs.getCategoryId())
             .orElseThrow(() -> new EntityNotFoundException("Category not found"));
         entity.setCategory(category);
@@ -109,6 +110,7 @@ public class AnnonceServiceImpl implements AnnonceService {
         annonceRepository.save(entity);
     }
 
+    @SuppressWarnings("null")
     @Override
     public Optional<AnnonceItem> getAnnonceById(Long id) {
         return annonceRepository.findById(id)
@@ -125,6 +127,7 @@ public class AnnonceServiceImpl implements AnnonceService {
     @Transactional
     @Override
     public void updateAnnonce(Long id, AnnonceUpdate inputs) {
+        @SuppressWarnings("null")
         Optional<Annonce> annonceOpt = annonceRepository.findById(id);
         if (annonceOpt.isPresent()) {
             Annonce entity = annonceOpt.get();
@@ -152,7 +155,8 @@ public class AnnonceServiceImpl implements AnnonceService {
 	        entity.setSharingMethod(sharingMethod);
 
 	        // Set Category
-	        Category category = categoryRepository.findById(inputs.getCategoryId())
+	        @SuppressWarnings("null")
+            Category category = categoryRepository.findById(inputs.getCategoryId())
 	            .orElseThrow(() -> new EntityNotFoundException("Category not found"));
 	        entity.setCategory(category);
 
@@ -166,6 +170,7 @@ public class AnnonceServiceImpl implements AnnonceService {
     @Transactional
     @Override
     public void deleteAnnonce(Long id) {
+        @SuppressWarnings("null")
         Optional<Annonce> annonceOpt = annonceRepository.findById(id);
         if (annonceOpt.isPresent()) {
             Annonce entity = annonceOpt.get();

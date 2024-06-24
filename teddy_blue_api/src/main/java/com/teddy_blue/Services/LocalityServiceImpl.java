@@ -19,11 +19,13 @@ public class LocalityServiceImpl implements LocalityService {
         this.localityRepository = localityRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     public Locality saveLocality(Locality locality) {
         return localityRepository.save(locality);
     }
 
+    @SuppressWarnings("null")
     @Override
     public Optional<Locality> getLocalityById(Long id) {
         return localityRepository.findById(id);
