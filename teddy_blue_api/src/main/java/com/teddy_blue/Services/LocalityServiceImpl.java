@@ -40,4 +40,10 @@ public class LocalityServiceImpl implements LocalityService {
     public Optional<Locality> findByZipCodeAndCityCode(String zipCode, String cityCode) {
         return localityRepository.findByZipCodeAndCityCode(zipCode, cityCode);
     }
+
+    @Override
+    public List<Locality> findByZipCodeContaining(String zipCode) {
+        return localityRepository.findByZipCodeContaining(zipCode);
+    }
 }
+

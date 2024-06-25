@@ -11,6 +11,8 @@ public interface LocalityService {
     Optional<Locality> getLocalityById(Long id);
 
     List<Locality> getAllLocalities();
- 
+
     Optional<Locality> findByZipCodeAndCityCode(String zipCode, String cityCode);
+
+    List<Locality> findByZipCodeContaining(String zipCode);
 }

@@ -1,5 +1,6 @@
 package com.teddy_blue.Repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +12,7 @@ public interface LocalityRepository
 
     Optional<Locality> findByZipCodeAndCityCode(
 	    String zipCode, String cityCode);
+    
+    List<Locality> findByZipCodeContaining(String zipCode);
 
 }

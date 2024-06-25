@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.teddy_blue.Entities.Locality;
@@ -32,5 +33,11 @@ public class LocalityController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/search")
+    public List<Locality> searchLocalitiesByZipCode(@RequestParam String zipCode) {
+        return localityService.findByZipCodeContaining(zipCode);
+    }
 }
+
 

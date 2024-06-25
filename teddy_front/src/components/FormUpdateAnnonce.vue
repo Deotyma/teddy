@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, computed, watch } from 'vue';
 import axios from 'axios';
 
 // Extract annonce ID from URL
@@ -38,7 +38,6 @@ const fetchAnnonceData = async () => {
         inputs.textAnnonce = annonceData.textAnnonce;
         inputs.categoriesId = annonceData.categoryId;
         inputs.sharingMethodsId = annonceData.sharingMethodId;
-        //inputs.file = data.photoLink;
 
         if (annonceData.localityId) {
             const localityResponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/localities/${annonceData.localityId}`);
@@ -97,6 +96,53 @@ const fileSelected = (event) => {
     inputs.file = event.target.files[0];
 };
 
+const suggestions = ref([]);
+const selectedCity = ref('');
+
+const searchZipCode = computed(() => {
+    if (inputs.zipCode === '') {
+        return [];
+    }
+
+    let matches = 0;
+
+    return suggestions.value.filter(suggestion => {
+        if (suggestion.zipCode.includes(inputs.zipCode) && matches < 10) {
+            matches++;
+            return suggestion;
+        }
+    });
+});
+
+const fetchLocationInfo = async (zipCode) => {
+    if (zipCode) {
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/localities/search?zipCode=${zipCode}`);
+            console.log('API response:', response.data);
+            if (response.data && response.data.length > 0) {
+                suggestions.value = response.data;
+            } else {
+                console.error('No locality data available');
+            }
+        } catch (error) {
+            console.error('Error fetching location info:', error);
+        }
+    }
+};
+
+const selectSuggestion = (suggestion) => {
+    inputs.zipCode = suggestion.zipCode;
+    inputs.cityCode = suggestion.cityCode;
+    selectedCity.value = suggestion.cityCode;
+    suggestions.value = [];
+};
+
+watch(() => inputs.zipCode, (newZipCode) => {
+    if (newZipCode) {
+        fetchLocationInfo(newZipCode);
+    }
+});
+
 // Initialization on component mount
 onMounted(() => {
     fetchAnnonceData();
@@ -130,9 +176,14 @@ onMounted(() => {
                         </div>
                         <!-- More input fields -->
                         <div class="col-6 mb-3">
-                            <label for="zipCode" class="form-label text-light fw-bolder fs-5">Code Postal</label>
-                            <input type="text" class="form-control py-3" id="zipCode" v-model.trim="inputs.zipCode"/>
-                        </div>
+                           <label for="zipCode" class="form-label text-light fw-bolder fs-5">{{ $t('formAnnonce.zipCode') }}</label>
+                           <input type="text" class="form-control py-3" id="zipCode" v-model.trim="inputs.zipCode"/>
+                           <ul v-if="searchZipCode.length" class="autocomplete-results">
+                               <li v-for="suggestion in searchZipCode" :key="suggestion.zipCode" @click="selectSuggestion(suggestion)">
+                                   {{ suggestion.zipCode }}
+                               </li>
+                           </ul>
+                       </div>
                         <div class="col-6 mb-3">
                             <label for="cityCode" class="form-label text-light fw-bolder fs-5">Code Ville</label>
                             <input type="text" class="form-control py-3" id="cityCode" v-model.trim="inputs.cityCode"/>
