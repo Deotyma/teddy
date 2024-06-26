@@ -31,6 +31,7 @@
     "babel-jest": "^27.0.0",
     "babel-plugin-transform-vite-meta-env": "^1.0.3",
     "bootstrap": "^5.2.3",
+    "flush-promises": "^1.0.2",
     "jest": "^27.0.0",
     "jest-environment-jsdom": "^27.0.0",
     "node-sass": "^8.0.0",

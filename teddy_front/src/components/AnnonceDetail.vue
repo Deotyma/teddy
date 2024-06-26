@@ -9,13 +9,14 @@ const router = useRouter();
 const annonceId = route.params.id;
 const annonce = ref({});
 const lastestAnnonces = ref([]);
-const isAuthenticated = ref(false)
+const isAuthenticated = ref(false);
 const userId = localStorage.getItem('userId');
 
 async function initAnnonce() {
     try {
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/annonces/${annonceId}`);
         annonce.value = response.data;
+        console.log('Annonce data:', annonce.value); // Ajouter un journal ici
     } catch (error) {
         console.error('Error fetching annonce details:', error);
     }
@@ -36,8 +37,8 @@ function getToken() {
 
 async function checkAuthentication() {
     const token = getToken();
-     if (token){
-        isAuthenticated.value = true
+    if (token) {
+        isAuthenticated.value = true;
     } else {
         isAuthenticated.value = false;
     }
@@ -64,7 +65,7 @@ async function deleteAnnonce() {
 onBeforeMount(() => {
     initAnnonce();
     initLastAnnonce();
-    checkAuthentication()
+    checkAuthentication();
 });
 </script>
 
