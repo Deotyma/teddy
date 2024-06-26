@@ -72,28 +72,29 @@ onBeforeMount(() => {
     <main class="py-4">
         <div class="container">
             <div class="row">
-                <div class="col-lg-9">
-                    <div class="row justify-content-center">
-                        <div class="imgProd col-lg-12 py-4">
-                            <img :src="`/teddyblueImg/${annonce.photoLink}`" alt="" class="image col-lg-8 offset-lg-2">
+                <div class="my-5 col-lg-9 order-lg-last">
+                    <div class="row d-flex justify-content-around">
+                        <div class="imgProd py-4 col-lg-5">
+                            <img :src="`/teddyblueImg/${annonce.photoLink}`" alt="" class="img-fluid rounded-3 shadow-sm">
                         </div>
-                    </div>
-                    <div class="col-lg-12 text-center">
-                        <h2 class="name">{{ annonce.title }}</h2>
-                        <span class="badge text-bg-primary">{{ annonce.categoryName }}</span>
-                        <span class="badge text-bg-primary">{{ annonce.sharingMethodName }}</span>
-                        <p class="description">{{ annonce.textAnnonce }}</p>
-                        <div v-if="isAuthenticated">
-                            <RouterLink :to="{ name: 'update', params: { id: annonceId }}" class="btn search-button py-3 px-5 me-3 animated fadeIn bg-warning text-light fw-bolder fs-6">Update</RouterLink>
-                            <button @click="deleteAnnonce" type="button" class="btn search-button py-3 px-5 me-3 animated fadeIn bg-danger text-light fw-bolder fs-6">Delete</button>
+                        <div class="py-4 col-lg-5">
+                            <h2 class="name fw-bold">{{ annonce.title }}</h2>
+                            <div class="my-2">
+                                <span class="badge bg-primary me-1">{{ annonce.categoryName }}</span>
+                                <span class="badge bg-primary">{{ annonce.sharingMethodName }}</span>
+                            </div>
+                            <p class="description text-muted">{{ annonce.textAnnonce }}</p>
+                            <div v-if="isAuthenticated" class="my-3">
+                                <RouterLink :to="{ name: 'update', params: { id: annonceId }}" class="btn btn-warning text-light me-2">Update</RouterLink>
+                                <button @click="deleteAnnonce" type="button" class="btn btn-danger text-light me-2">Delete</button>
+                            </div>
+                            <a :href="`mailto:${annonce.userEmail}`" class="btn btn-secondary text-light"><i class="fas fa-envelope"></i> Contacter l'annonceur</a>
                         </div>
-                        <a :href="`mailto:${annonce.userEmail}`" class="btn btn-dark bg-secondary"><i class="fas fa-cart-arrow-down"></i>Contacter l'annonceur</a>
-
                     </div>
                 </div>
-                <div class="col-lg-3 order-lg-first justify-content-center">
-                    <h2 class="m-3">Nos suggestions</h2>
-                    <div class="col-md-6 d-flex justify-content-center" v-for="lastAnnonce in lastestAnnonces" :key="lastAnnonce.id">
+                <div class="col-lg-3 order-lg-first">
+                    <h2 class="m-3 text-center">Nos suggestions</h2>
+                    <div class="col-12 mb-3" v-for="lastAnnonce in lastestAnnonces" :key="lastAnnonce.id">
                         <LastestAnnonces :annonceData="lastAnnonce" />
                     </div>
                 </div>
@@ -101,3 +102,24 @@ onBeforeMount(() => {
         </div>
     </main>
 </template>
+
+<style>
+.name {
+    color: #2c3e50;
+}
+.description {
+    font-size: 1.1rem;
+}
+.btn {
+    transition: background-color 0.3s ease;
+}
+.btn:hover {
+    background-color: #1a1a1a;
+}
+.imgProd img {
+    transition: transform 0.3s ease;
+}
+.imgProd img:hover {
+    transform: scale(1.05);
+}
+</style>
