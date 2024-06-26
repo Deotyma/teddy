@@ -11,7 +11,7 @@ const messages = {
         firstName:"Prènom",
         lastName:"Nom",
         email:"Email",
-        password:"Mot de pass",
+        password:"Mot de passe",
         repeatPassword:"Confirmer le mot de passe",
         nickName:"Pseudonyme"
     },

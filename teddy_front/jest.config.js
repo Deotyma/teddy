@@ -13,6 +13,9 @@ const config = {
     '/node_modules/(?!(axios)/)',
     '\\.pnp\\.[^\\/]+$'
   ],
+  moduleNameMapper: {
+    '\\.(jpg|jpeg|png|gif|svg)$': '<rootDir>/__mocks__/fileMock.js',
+  },
 };
 
 module.exports = config;
