@@ -15,3 +15,5 @@ app.use(axios);
 app.use(i18n)
 
 app.mount('#app')
+
+console.log(import.meta.env.VITE_API_BASE_URL);
