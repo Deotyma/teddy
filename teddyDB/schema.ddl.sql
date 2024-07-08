@@ -31,6 +31,7 @@ CREATE TABLE t_users (
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     nick_name VARCHAR(50) UNIQUE NOT NULL,
+    role VARCHAR(5),
     password VARCHAR(255) NOT NULL
 );
 

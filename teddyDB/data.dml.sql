@@ -36,11 +36,11 @@ VALUES
 ('sell');
 
 -- Insert users
-INSERT INTO t_users(email, first_name, last_name, nick_name, password)
+INSERT INTO t_users(email, first_name, last_name, nick_name,role, password)
 VALUES 
-('user1@example.com', 'Alice', 'Smith', 'AliceS', 'password1'),
-('user2@example.com', 'Bob', 'Johnson', 'BobJ', 'password2'),
-('user3@example.com', 'Charlie', 'Davis', 'CharlieD', 'password3');
+('user1@example.com', 'Alice', 'Smith', 'AliceS','USER' 'password1'),
+('user2@example.com', 'Bob', 'Johnson', 'BobJ','USER', 'password2'),
+('user3@example.com', 'Charlie', 'Davis', 'CharlieD','USER', 'password3');
 
 -- Insert annonces
 INSERT INTO t_annonces(title, text_annonce, photo_link, user_id, sharing_method_id, category_id, locality_id, date_added) 
