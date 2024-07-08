@@ -2,12 +2,14 @@
 package com.teddy_blue;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@ConditionalOnProperty(name = "teddyblue.cors.enabled", havingValue = "true")
 public class WebConfig implements WebMvcConfigurer {
 
     @Value("${teddyblue.cors.allowed-origins}")
