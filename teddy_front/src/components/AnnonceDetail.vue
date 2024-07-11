@@ -44,6 +44,10 @@ async function checkAuthentication() {
     }
 }
 
+function imgSrc(photoLink) {
+    return `${import.meta.env.VITE_IMG_BASE_URL}/${photoLink}`;
+}
+
 async function deleteAnnonce() {
     const token = getToken();
     if (!token) {
@@ -76,7 +80,7 @@ onBeforeMount(() => {
                 <div class="my-5 col-lg-9 order-lg-last">
                     <div class="row d-flex justify-content-around">
                         <div class="imgProd py-4 col-lg-5">
-                            <img :src="`/teddyblueImg/${annonce.photoLink}`" alt="" class="img-fluid rounded-3 shadow-sm">
+                            <img :src="imgSrc(annonce.photoLink)" alt="" class="img-fluid rounded-3 shadow-sm">
                         </div>
                         <div class="py-4 col-lg-5">
                             <h2 class="name fw-bold">{{ annonce.title }}</h2>
@@ -96,7 +100,7 @@ onBeforeMount(() => {
                 <div class="col-lg-3 order-lg-first">
                     <h2 class="m-3 text-center">Nos suggestions</h2>
                     <div class="col-12 mb-3" v-for="lastAnnonce in lastestAnnonces" :key="lastAnnonce.id">
-                        <LastestAnnonces :annonceData="lastAnnonce" />
+                        <LastestAnnonces :annonceData="lastAnnonce" :imgSrc="imgSrc" />
                     </div>
                 </div>
             </div>

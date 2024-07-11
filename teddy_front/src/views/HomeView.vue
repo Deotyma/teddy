@@ -14,6 +14,9 @@ onMounted(async () => {
     console.error('Error fetching annonces:', error);
   }
 });
+function imgSrc(photoLink) {
+    return `${import.meta.env.VITE_IMG_BASE_URL}/${photoLink}`;
+}
 </script>
 
 <template>
@@ -30,7 +33,7 @@ onMounted(async () => {
         <h2 class="pacifico text-primary text-center mt-3" >{{  $t('home.new') }}</h2>
         <div class="row d-flex justify-content-around">
           <div class="col-md-6 d-flex justify-content-center"  v-for="annonce in annonces" :key="annonce.id" >
-            <Annonce :annonceData="annonce" />
+            <Annonce :annonceData="annonce" :imgSrc="imgSrc" />
           </div>
         </div>
     </div>

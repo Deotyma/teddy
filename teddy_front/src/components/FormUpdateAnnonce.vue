@@ -16,7 +16,8 @@ const inputs = reactive({
     cityCode: '',
     categoriesId: null,
     sharingMethodsId: null,
-    file: null
+    file: null,
+    photoLink: '' // Add this to store the current photo link
 });
 
 const token = localStorage.getItem('accessToken');
@@ -38,6 +39,7 @@ const fetchAnnonceData = async () => {
         inputs.textAnnonce = annonceData.textAnnonce;
         inputs.categoriesId = annonceData.categoryId;
         inputs.sharingMethodsId = annonceData.sharingMethodId;
+        inputs.photoLink = annonceData.photoLink; // Store the photo link
 
         if (annonceData.localityId) {
             const localityResponse = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/localities/${annonceData.localityId}`);
@@ -59,13 +61,12 @@ const updateAnnonce = async () => {
         formData.append('cityCode', inputs.cityCode);
         formData.append('categoryId', inputs.categoriesId);
         formData.append('sharingMethodId', inputs.sharingMethodsId);
-        formData.append('photoLink', inputs.file);
-        formData.append('userId', userId);
         if (inputs.file) {
             formData.append('photo', inputs.file);
         }
+        formData.append('userId', userId);
 
-        const response = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/annonces/update/${annonceId}`, formData,{
+        const response = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/annonces/update/${annonceId}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 Authorization: `Bearer ${token}`
@@ -143,11 +144,15 @@ watch(() => inputs.zipCode, (newZipCode) => {
     }
 });
 
+// Method to get the image URL
+const imgSrc = (photoLink) => {
+    return `${import.meta.env.VITE_IMG_BASE_URL}/${photoLink}`;
+};
+
 // Initialization on component mount
 onMounted(() => {
     fetchAnnonceData();
     fetchCategoriesAndMethods();
-    updateAnnonce()
 });
 </script>
 
@@ -172,7 +177,7 @@ onMounted(() => {
                         <div class="col-12 mb-3">
                             <label for="photoLink" class="form-label text-light fw-bolder fs-5">Photo</label>
                             <input class="form-control form-control-lg" type="file" accept="image/png,image/gif,image/jpeg" id="photoLink" @change="fileSelected">
-                            <img :src="`/teddyblueImg/${inputs.file}`" class="img-thumbnail rounded float-start small-image" alt="Current annonce image">
+                            <img :src="imgSrc(inputs.photoLink)" class="img-thumbnail rounded float-start small-image" alt="Current annonce image">
                         </div>
                         <!-- More input fields -->
                         <div class="col-6 mb-3">
@@ -214,8 +219,8 @@ onMounted(() => {
 </template>
 
 <style>
-    .small-image {
-        width: 100px;
-        height: auto;
-    }
+.small-image {
+    width: 100px;
+    height: auto;
+}
 </style>

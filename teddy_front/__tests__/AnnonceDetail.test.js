@@ -6,6 +6,9 @@ import flushPromises from 'flush-promises';
 
 jest.mock('axios');
 
+// Mock VITE_IMG_BASE_URL
+process.env.VITE_IMG_BASE_URL = '/teddyblueImg';
+
 const routes = [
   {
     path: '/annonce-detail/:id',
@@ -87,10 +90,10 @@ describe('AnnonceDetail', () => {
     const wrapper = await mountComponent();
     await flushPromises();
 
-    expect(wrapper.find('img').attributes('src')).toBe(`/teddyblueImg/${mockAnnonceData.photoLink}`);
+    expect(wrapper.find('img').attributes('src')).toBe(`${process.env.VITE_IMG_BASE_URL}/${mockAnnonceData.photoLink}`);
   });
 
-  test('should display userEmail,correctly', async () => {
+  test('should display userEmail, correctly', async () => {
     mockAxiosGet();
 
     const wrapper = await mountComponent();
@@ -99,3 +102,4 @@ describe('AnnonceDetail', () => {
     expect(wrapper.find('a.btn-secondary').attributes('href')).toBe(`mailto:${mockAnnonceData.userEmail}`);
   });
 });
+
