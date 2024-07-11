@@ -45,8 +45,5 @@
             <li class="list-group-item">{{ $t('user.nickName') }}: {{ user.nickName }}</li>
             <li class="list-group-item">{{ $t('user.email') }}: {{ user.email }}</li>
         </ul>
-        <div class="card-footer">
-        Card footer
-        </div>
     </div>
 </template>

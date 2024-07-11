@@ -10,7 +10,9 @@ const annonces = ref([]);
 function getToken() {
     return localStorage.getItem('accessToken');
 }
-
+function imgSrc(photoLink) {
+    return `${import.meta.env.VITE_IMG_BASE_URL}/${photoLink}`;
+}
 onMounted(async () => {
     const token = getToken();
     const userId = localStorage.getItem('userId');  // Assurez-vous que l'userId est stocké lors de l'authentification
@@ -43,7 +45,7 @@ onMounted(async () => {
                 <RouterLink to="/create" class="btn btn-primary" role="button">{{ $t('user.createAnnonce') }}</RouterLink>
             </div>
             <div class="col-md-6 d-flex justify-content-center" v-for="annonce in annonces" :key="annonce.id">
-                <Annonce :annonceData="annonce" />
+                <Annonce :annonceData="annonce" :imgSrc="imgSrc"/>
             </div>
         </div>
      </main>

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue';
 import axios from 'axios';
-import { RouterLink, useRouter, useRoute} from 'vue-router';
+import { RouterLink, useRouter, useRoute } from 'vue-router';
 import LastestAnnonces from './LastestAnnonces.vue';
 
 const route = useRoute();
@@ -10,13 +10,15 @@ const annonceId = route.params.id;
 const annonce = ref({});
 const lastestAnnonces = ref([]);
 const isAuthenticated = ref(false);
+const isCreator = ref(false); // New ref to check if the logged-in user is the creator
 const userId = localStorage.getItem('userId');
 
 async function initAnnonce() {
     try {
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/annonces/${annonceId}`);
         annonce.value = response.data;
-        console.log('Annonce data:', annonce.value); // Ajouter un journal ici
+        console.log('Annonce data:', annonce.value); // Log fetched annonce data
+        checkCreator();
     } catch (error) {
         console.error('Error fetching annonce details:', error);
     }
@@ -44,6 +46,17 @@ async function checkAuthentication() {
     }
 }
 
+function checkCreator() {
+    console.log('Logged-in user ID:', userId); // Log the user ID from local storage
+    console.log('Annonce creator ID:', annonce.value.userId); // Log the user ID from the fetched annonce
+    if (userId && annonce.value.userId && userId === annonce.value.userId.toString()) {
+        isCreator.value = true;
+    } else {
+        isCreator.value = false;
+    }
+    console.log('Is creator:', isCreator.value); // Log whether the user is the creator
+}
+
 function imgSrc(photoLink) {
     return `${import.meta.env.VITE_IMG_BASE_URL}/${photoLink}`;
 }
@@ -60,7 +73,7 @@ async function deleteAnnonce() {
                 Authorization: `Bearer ${token}`
             }
         });
-        router.push({ name: 'user', params: { id:userId } });
+        router.push({ name: 'user', params: { id: userId } });
     } catch (error) {
         console.error('Error deleting annonce:', error.response ? error.response.data : error);
     }
@@ -89,7 +102,7 @@ onBeforeMount(() => {
                                 <span class="badge bg-primary">{{ annonce.sharingMethodName }}</span>
                             </div>
                             <p class="description text-muted">{{ annonce.textAnnonce }}</p>
-                            <div v-if="isAuthenticated" class="my-3">
+                            <div v-if="isAuthenticated && isCreator" class="my-3">
                                 <RouterLink :to="{ name: 'update', params: { id: annonceId }}" class="btn btn-warning text-light me-2">Update</RouterLink>
                                 <button @click="deleteAnnonce" type="button" class="btn btn-danger text-light me-2">Delete</button>
                             </div>
@@ -128,3 +141,4 @@ onBeforeMount(() => {
     transform: scale(1.05);
 }
 </style>
+
