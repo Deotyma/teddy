@@ -20,6 +20,7 @@ Les jouets et matériels éducatifs homologués pour enfants en situation de han
 - 🔍 Recherche et filtrage du matériel disponible
 - 👤 Espace personnel pour gérer ses annonces
 - 🗺️ Carte interactive (Leaflet.js) pour trouver du matériel à proximité de chez soi
+- 🧪 Tests frontend avec Jest
 - 🧩 Catégories : jouets éducatifs, livres adaptés, matériel pédagogique
 
 ### Technologies
@@ -64,6 +65,7 @@ Approved educational toys and materials for children with disabilities are often
 - 🔍 Search and filter available items
 - 👤 Personal dashboard to manage listings
 - 🗺️ Interactive map (Leaflet.js) to find materials near your location
+- 🧪 Frontend tests with Jest
 - 🧩 Categories: educational toys, adapted books, pedagogical tools
 
 ### Tech Stack
